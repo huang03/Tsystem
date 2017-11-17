@@ -13,10 +13,16 @@ class _IPackages:
     def __init__(self):
         self._rules={}# eg {tbl:[id:rule,type:rule,...]}
 
-    def add(self,tbl,rules):
-        pass
+    # def add(self,tbl,rules):
+    #     pass
+
 
     def addRule(self,tbl,rule):
+        '''
+        :param tbl: 表名
+        :param rule: 表的字段规则
+        :return:
+        '''
         pass
 
     def delete(self,tbl):
@@ -32,22 +38,24 @@ class RPackages(_IPackages):
     def __init__(self):
         super().__init__()
         self._errors = []
+        self.RUN = None #具体执行类
     def add(self,tbl,rules={}):
         '''
             tbl:集合的key eg {tbl:{id:rule,....}}
             rules:具体的规则集合
         '''
-        self._rules[tbl] = rules
+        # self._rules[tbl] = rules
     def addRule(self,tbl, key, rule):
         '''
             tbl: 集合的key
             key:规则的key
             rule: key的规则
         '''
-        #print(type(self._rules.get(tbl)))
         if not isinstance(self._rules.get(tbl),dict):
             self._rules[tbl] = {}
+
         self._rules[tbl][key] = rule;
+
     def delete(self,tbl):
         '''
             tbl:集合的key
@@ -55,9 +63,25 @@ class RPackages(_IPackages):
         if self._rules.get(tbl):
             del self._rules[tbl]
 
+    #运行
     def runs(self):
-        run = rules.RulesRun.Runs(self._rules)
-        run.run(self._errors)
+        if self.RUN is None:
+            self.RUN = rules.RulesRun.Runs(self._rules)
+        self.RUN.run(self._errors)
+    #停止运行
+    def stopRuns(self):
+        if self.RUN:
+            self.RUN.stopRuns()
+        pass
+
+    def setInterval(self,intervalTm):
+        '''
+
+        :param intervalTm: 数据插入的时间间隔
+        :return:
+        '''
+        intervalTm = float(intervalTm)
+        self.RUN.setIntervalTm(intervalTm)
 
     def getError(self):
         return self._errors

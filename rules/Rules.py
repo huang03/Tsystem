@@ -37,6 +37,36 @@ class _IRule:
     def getValue(self):
         pass;
 
+
+def validateExtras(parent):
+    '''
+    验证额外规则
+    设置额外规则的标志为存在 _TYPE_
+    :param parent: 父对象
+    :return:
+    '''
+    if not parent._metas.get('_TYPE_'):
+        return 1
+    if parent._metas.get('_TYPE_') == 'LIST':
+        return validateExtras(parent)
+    else:
+        return validateTbl(parent)
+    pass
+#验证固定列表数据
+def validateValueList(parent):
+    if parent._metas.get('list') == '':
+        return False
+    return True
+    pass
+#验证数据表，字段
+def validateTbl(parent):
+    if parent._metas.get('tbl') == '':
+        return False
+    if parent._metas.get('property') == '':
+        return False
+
+    return True
+
 class IntegerRule(_IRule):
     '''
         整数规则验证:
@@ -48,21 +78,25 @@ class IntegerRule(_IRule):
     def __init__(self,params):
         super().__init__(params)
     def validate(self):
-        #self.setMetas(None)
+        isOk = validateExtras(self)
+        if isOk != 1:
+            return isOk
         params = self._metas
-        if params.get('start') and not isinstance(params.get('start'), int):
-            self.setError('start is not int')
+        if not params.get('start').isdigit():
+            self.setError('start must Interger')
             return False
-        if  params.get('end') and not isinstance(params.get('end'), int):
-            self.setError('end is not int')
+        if not params.get('end').isdigit():
+            self.setError('end must Interger')
             return False
-        if params.get('step') and not isinstance(params.get('step'), int):
-            self.setError('Step must be int')
+        if not params.get('step').isdigit():
+            self.setError('step must Interger')
             return False
-        if isinstance(params.get('start'),int) and isinstance(params.get('end'),int):
-            if params.get('start') > params.get('end'):
-                self.setError('end must bigger than start ')
-                return False
+        params['start'] = int(params['start'])
+        params['end'] = int(params['end'])
+        params['step'] = int(params['step'])
+        if params.get('start') > params.get('end'):
+            self.setError('end must bigger than start ')
+            return False
         del params
         #self.setMetas(params)
         return True
@@ -82,10 +116,15 @@ class VarcharRule(_IRule):
     def __init__(self,params):
         super().__init__(params)
     def validate(self):
+        isOk = validateExtras(self)
+        if isOk != 1:
+            return isOk
         params = self._metas
-        RInteger = IntegerRule()
-        if not RInteger.validate(params):
+        RInteger = IntegerRule(params)
+        if not RInteger.validate():
+            self.setError(RInteger.getError())
             self.setMetas(None)
+            return False
         if not params.get('prefix'):
             params['prefix'] = 'tsys-'
 
@@ -128,15 +167,12 @@ class TimeStampRule(_IRule):
                 self.setError('the format is xxxx-xx-xx xx:xx:xx for end')
                 return False
 
-        if params.get('step') and not isinstance(params.get('step'), int):
-            self.setError('Step must be int')
+        if not params.get('step').isdigit():
+            self.setError('step must Interger')
             return False
-        elif params.get('step') == '':
-            params['step'] = 1
         if not params.get('unit'):
             params['unit'] = 'M'
         del  params
-        #print(self._metas)
         return True
     def getValue(self):
         if not self._GrtData:

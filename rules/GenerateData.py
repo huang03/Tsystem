@@ -1,7 +1,7 @@
 import time
-# from rules.Rules import _IRule
 from  commons.timeOperation import  TmOperation
 from rules.DefaultValue import *
+from dbs.MysqlC import MysqlC
 class IGenerate:
     '''
         根据Rules中的规则生成数据
@@ -55,14 +55,27 @@ class VarcharGenerate(IGenerate):
     '''
     def __init__(self, rule):
         super().__init__(rule)
-        self._GInteger = IntegerGenerate(rule)
+
+        if self._metas.get('_TYPE_'):
+
+            if self._metas.get('_TYPE_') == 'LIST':
+
+                self._GInteger = ValueListGenerate(rule)
+            elif self._metas.get('_TYPE_') == 'TBL':
+                self._GInteger = TableGenerate(rule)
+                pass
+        else:
+            self._GInteger = IntegerGenerate(rule)
 
     def generateValue(self):
+        if self._metas.get('_TYPE_'):
+            self._currValue = self._GInteger.getValue()
+            return False;
+
         if not self._metas:
             self._currValue =None
         currValue = self._GInteger.getValue()
 
-       # print(self._metas)
         if not currValue:
             self._currValue = self._metas['prefix']
         self._currValue =  self._metas['prefix'] + '%s' % currValue
@@ -79,7 +92,6 @@ class TimeStampGenerate(IGenerate):
             self._metas['end'] = self.TmOpr.getDateTimeByStr(self._metas['end'])
 
     def generateValue(self):
-        #print(self._metas)
         if self._metas.get('now'):
             self._currValue = time.strftime('%Y-%m-%d %H:%M:%S')
         else:
@@ -90,3 +102,35 @@ class TimeStampGenerate(IGenerate):
                 if(self._currValue > self._metas['end']):
                     self._currValue = OVAER_FLAG
 
+
+
+class ValueListGenerate(IGenerate):
+    '''
+    默认值列表插入,根据Extra 设置的默认值列表，循环插入生成数据
+    '''
+    def __init__(self,rule):
+        pass
+        super().__init__(rule)
+        self.values = self._metas['list'].split(',')
+        self.len = len(self.values)
+        self.index = 0;
+    def generateValue(self):
+        self._currValue = self.values[self.index]
+        self.index += 1;
+        if self.index>= self.len:
+            self.index = 0
+        pass
+class TableGenerate(IGenerate):
+    '''
+     查询数据表生成数据
+    '''
+    def __init__(self,rule):
+        super().__init__(rule)
+        self.operator = MysqlC()
+    def generateValue(self):
+        self._currValue = self.operator.queryScalar({
+            'table':self._metas['tbl'],
+            'select':self._metas['property'],
+            'order':'id desc'
+        })
+        pass
