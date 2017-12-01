@@ -12,7 +12,7 @@ class _IPackages:
     '''
     def __init__(self):
         self._rules={}# eg {tbl:[id:rule,type:rule,...]}
-
+        self.logsObj = None
     # def add(self,tbl,rules):
     #     pass
 
@@ -33,6 +33,11 @@ class _IPackages:
 
     def getRules(self):
         return self._rules
+
+    def setLogsObj(self,obj):
+        # print(obj)
+        self.logsObj = obj
+        pass
 
 class RPackages(_IPackages):
     def __init__(self):
@@ -67,6 +72,7 @@ class RPackages(_IPackages):
     def runs(self):
         if self.RUN is None:
             self.RUN = rules.RulesRun.Runs(self._rules)
+            self.RUN.setLogsObj(self.logsObj)
         self.RUN.run(self._errors)
     #停止运行
     def stopRuns(self):
@@ -80,8 +86,9 @@ class RPackages(_IPackages):
         :param intervalTm: 数据插入的时间间隔
         :return:
         '''
-        intervalTm = float(intervalTm)
-        self.RUN.setIntervalTm(intervalTm)
+        if self.RUN is not None:
+            intervalTm = float(intervalTm)
+            self.RUN.setIntervalTm(intervalTm)
 
     def getError(self):
         return self._errors

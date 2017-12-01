@@ -87,6 +87,8 @@ class TimeStampGenerate(IGenerate):
     '''
     def __init__(self, rule):
         super().__init__(rule)
+        if(self._metas.get('step')):
+            self._metas['step'] = int(self._metas['step'])*-1
         self.TmOpr = TmOperation();
         if self._metas.get('end'):
             self._metas['end'] = self.TmOpr.getDateTimeByStr(self._metas['end'])

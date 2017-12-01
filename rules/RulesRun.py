@@ -12,17 +12,21 @@ class Runs:
         self._rules = rules
         self._valids = {}
         self.insertRun = None #插入数据的运行类
-
+        self.logsOjb = None
     #运行
     def run(self, errors):
         if self.insertRun is None:
             self.validates(errors)
             self.insertRun = InsertDBRun(self._valids)
+            self.insertRun.setLogsObj(self.logsOjb)
         self.insertRun.run()
 
     #停止运行
     def stopRuns(self):
         self.insertRun.stopRuns()
+
+    def setLogsObj(self,obj):
+        self.logsOjb = obj
     #设置执行频率(插入数据的时间间隔)
     def setIntervalTm(self,tm):
         self.insertRun.setIntervalTm(tm)
@@ -73,6 +77,7 @@ class _IRUN:
         self.isRun = True
         self.runEvent = threading.Event() # 线程控制对象类型
         self.intervalTm = 0.1 #默认时间间隔
+        self.logsObj = None
 
     #停止运行
     def stopRuns(self):
@@ -81,7 +86,8 @@ class _IRUN:
     #设置执行频率
     def setIntervalTm(self,tm):
         self.intervalTm = tm
-
+    def setLogsObj(self,obj):
+        self.logsObj = obj
     def run(self):
         '''
             具体执行过程
@@ -97,9 +103,7 @@ class InsertDBRun(_IRUN):
 
 
     def run(self):
-        print(self.isRun)
         self.runEvent.set()
-        # self.isRun = True
         global RunThreads
         global RunThreadsLog
 
@@ -130,6 +134,7 @@ class InsertDBRun(_IRUN):
         while True:
             index +=1
             try:
+                # print(task)
                 values = tuple(task[v].getValue() for v in task)
                 params = {
                     'table': tbl,
@@ -138,9 +143,8 @@ class InsertDBRun(_IRUN):
                 }
                 if not db.add(params):
                     break
-                print(tbl+'--'+str(index))
+                self.logsObj.add(tbl+'--'+str(index))
                 time.sleep(self.intervalTm)
-
                 if not self.runEvent.isSet(): #判断是否需要要停止循环
                     self.runEvent.wait()
 

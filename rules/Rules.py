@@ -149,6 +149,7 @@ class TimeStampRule(_IRule):
     def __init__(self,params):
         super().__init__(params)
     def validate(self):
+        # print(1111)
         params = self._metas
         if params.get('now'):
             self.setMetas(params)

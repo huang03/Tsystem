@@ -8,6 +8,7 @@ class DialogDbConnect(tkinter.Toplevel):
         super().__init__()
         self.title('设置连接属性')
         self.parent = parrent
+        self.geometry('%dx%d+%d+%d' % self.parent.center_window(240,150))
         self.host = tkinter.StringVar()
         self.userName = tkinter.StringVar()
         self.passWord = tkinter.StringVar()

@@ -7,9 +7,9 @@ class renderViews:
     '''
     def __init__(self):
         self._params = {} #记录字段生成数据的具体规则对象
-    def render(self,key,type,node):
+    def render(self,key,type,node,row):
         obj = self.getViewObj(type)
-        obj.render(node)
+        obj.render(node,row)
         self._params[key] = obj
     #根据具体字段类型，生成具体的规则对象
     def getViewObj(self,type):
@@ -19,8 +19,8 @@ class renderViews:
         elif type == 'Varchar':
             return VarcharView()
 
-        elif type == 'StampTime':
-            return StampTimeView()
+        elif type == 'TimeStamp':
+            return TimeStampView()
 
         else:
             return None
@@ -37,8 +37,8 @@ class _RView:
     规则UI，接口
     '''
     #渲染
-    def render(self,node):
-        self._draw(node)
+    def render(self,node,row):
+        self._draw(node,row)
         pass
     #具体元素
     def _draw(self,node):
@@ -61,19 +61,31 @@ class IntegerView(_RView):
         self.startVar = tkinter.IntVar()
         self.endVar = tkinter.IntVar()
         self.stepVar = tkinter.IntVar()
-    def _draw(self,node):
+    def _draw(self,node,row):
 
-        frm = tkinter.Frame(node)
-        tkinter.Label(frm,text='开始值').pack(side=tkinter.LEFT)
-        self.start = tkinter.Entry(frm,textvariable=self.startVar)
-        self.start.pack(side=tkinter.LEFT)
-        tkinter.Label(frm,text='结束值').pack(side=tkinter.LEFT)
-        self.end = tkinter.Entry(frm,textvariable=self.endVar)
-        self.end.pack(side=tkinter.LEFT)
-        tkinter.Label(frm,text='步长').pack(side=tkinter.LEFT)
-        self.step = tkinter.Entry(frm,textvariable=self.stepVar)
-        self.step.pack(side=tkinter.LEFT)
-        frm.pack(side=tkinter.TOP,fill=tkinter.BOTH)
+        # frm = tkinter.Frame(node)
+        # tkinter.Label(frm,text='开始值').pack(side=tkinter.LEFT)
+        # self.start = tkinter.Entry(frm,textvariable=self.startVar)
+        # self.start.pack(side=tkinter.LEFT)
+        # tkinter.Label(frm,text='结束值').pack(side=tkinter.LEFT)
+        # self.end = tkinter.Entry(frm,textvariable=self.endVar)
+        # self.end.pack(side=tkinter.LEFT)
+        # tkinter.Label(frm,text='步长').pack(side=tkinter.LEFT)
+        # self.step = tkinter.Entry(frm,textvariable=self.stepVar)
+        # self.step.pack(side=tkinter.LEFT)
+        # frm.pack(side=tkinter.LEFT)
+
+
+        tkinter.Label(node,text='开始值').grid(row=row,column=1)
+        self.start = tkinter.Entry(node,textvariable=self.startVar)
+        self.start.grid(row=row,column=2)
+        tkinter.Label(node,text='结束值').grid(row=row,column=3)
+        self.end = tkinter.Entry(node,textvariable=self.endVar)
+        self.end.grid(row=row,column=4)
+        tkinter.Label(node,text='步长').grid(row=row,column=5)
+        self.step = tkinter.Entry(node,textvariable=self.stepVar)
+        self.step.grid(row=row,column=6)
+
         pass
     def getParams(self):
         params ={
@@ -96,21 +108,34 @@ class VarcharView(_RView):
     字符串生成规则 视图
     参数包括 字符串前缀，开始值，结束值，步长
     '''
-    def _draw(self,node):
-        frm = tkinter.Frame(node)
-        tkinter.Label(frm,text='前缀字符').pack(side=tkinter.LEFT)
-        self.prefix = tkinter.Entry(frm)
-        self.prefix.pack(side=tkinter.LEFT)
-        tkinter.Label(frm,text='开始值').pack(side=tkinter.LEFT)
-        self.start = tkinter.Entry(frm)
-        self.start.pack(side=tkinter.LEFT)
-        tkinter.Label(frm,text='结束值').pack(side=tkinter.LEFT)
-        self.end = tkinter.Entry(frm)
-        self.end.pack(side=tkinter.LEFT)
-        tkinter.Label(frm,text='步长').pack(side=tkinter.LEFT)
-        self.step = tkinter.Entry(frm)
-        self.step.pack(side=tkinter.LEFT)
-        frm.pack(side=tkinter.TOP, fill=tkinter.BOTH)
+    def _draw(self,node,row):
+        # frm = tkinter.Frame(node)
+        # tkinter.Label(frm,text='前缀字符').pack(side=tkinter.LEFT)
+        # self.prefix = tkinter.Entry(frm)
+        # self.prefix.pack(side=tkinter.LEFT)
+        # tkinter.Label(frm,text='开始值').pack(side=tkinter.LEFT)
+        # self.start = tkinter.Entry(frm)
+        # self.start.pack(side=tkinter.LEFT)
+        # tkinter.Label(frm,text='结束值').pack(side=tkinter.LEFT)
+        # self.end = tkinter.Entry(frm)
+        # self.end.pack(side=tkinter.LEFT)
+        # tkinter.Label(frm,text='步长').pack(side=tkinter.LEFT)
+        # self.step = tkinter.Entry(frm)
+        # self.step.pack(side=tkinter.LEFT)
+        # frm.pack(side=tkinter.LEFT)
+
+        tkinter.Label(node,text='开始值').grid(row=row,column=1)
+        self.start = tkinter.Entry(node)
+        self.start.grid(row=row,column=2)
+        tkinter.Label(node,text='结束值').grid(row=row,column=3)
+        self.end = tkinter.Entry(node)
+        self.end.grid(row=row,column=4)
+        tkinter.Label(node,text='步长').grid(row=row,column=5)
+        self.step = tkinter.Entry(node)
+        self.step.grid(row=row,column=6)
+        tkinter.Label(node,text='前缀字符').grid(row=row,column=7)
+        self.prefix = tkinter.Entry(node)
+        self.prefix.grid(row=row,column=8)
     def getParams(self):
         params = {
             'prefix':self.prefix.get(),
@@ -130,26 +155,37 @@ class VarcharView(_RView):
             self.step.insert(0,params.get('step'))
 
 
-class StampTimeView(_RView):
+class TimeStampView(_RView):
     '''
     时间生成规则 视图
     参数包括:开始时间，结束时间，步长
     '''
-    def _draw(self,node):
-        frm = tkinter.Frame(node)
-        tkinter.Label(frm,text='开始时间').pack(side=tkinter.LEFT)
-        self.start = tkinter.Entry(frm)
-        self.start.pack(side=tkinter.LEFT)
+    def _draw(self,node,row):
+        # frm = tkinter.Frame(node)
+        # tkinter.Label(frm,text='开始时间').pack(side=tkinter.LEFT)
+        # self.start = tkinter.Entry(frm)
+        # self.start.pack(side=tkinter.LEFT)
+        #
+        # tkinter.Label(frm,text='结束时间').pack(side=tkinter.LEFT)
+        # self.end = tkinter.Entry(frm)
+        # self.end.pack(side=tkinter.LEFT)
+        #
+        # tkinter.Label(frm,text='步长').pack(side=tkinter.LEFT)
+        # self.step = tkinter.Entry(frm)
+        # self.step.pack(side=tkinter.LEFT)
+        # frm.pack(side=tkinter.LEFT)
+        tkinter.Label(node, text='开始时间').grid(row=row,column=1)
+        self.start = tkinter.Entry(node)
+        self.start.grid(row=row,column=2)
 
-        tkinter.Label(frm,text='结束时间').pack(side=tkinter.LEFT)
-        self.end = tkinter.Entry(frm)
-        self.end.pack(side=tkinter.LEFT)
+        tkinter.Label(node,text='结束时间').grid(row=row,column=3)
+        self.end = tkinter.Entry(node)
+        self.end.grid(row=row,column=4)
 
-        tkinter.Label(frm,text='步长').pack(side=tkinter.LEFT)
-        self.step = tkinter.Entry(frm)
-        self.step.pack(side=tkinter.LEFT)
+        tkinter.Label(node,text='步长').grid(row=row,column=5)
+        self.step = tkinter.Entry(node)
+        self.step.grid(row=row,column=6)
 
-        frm.pack(side=tkinter.TOP,fill=tkinter.BOTH)
         pass
     def getParams(self):
         '''
@@ -161,8 +197,18 @@ class StampTimeView(_RView):
                     step:步长
                     unit:增长单位  M：分 H：时 S:秒 d:天
         '''
-        return {
+        params = {
             'start':self.start.get(),
             'end':self.end.get(),
             'step':self.step.get()
         }
+        V = TimeStampRule(params)
+        if(V.validate()):
+            return params
+        return V.getError()
+    def setParams(self,params):
+        if params.get('start'):
+            # self.prefix.insert(0,params.get('prefix'))
+            self.start.insert(0,params.get('start'))
+            self.end.insert(0,params.get('end'))
+            self.step.insert(0,params.get('step'))

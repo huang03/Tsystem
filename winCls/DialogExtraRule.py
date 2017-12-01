@@ -8,18 +8,23 @@ class DialogExtraRule(tkinter.Toplevel):
                   数据表数据生成，从数据表中，取得某个字段值作为该字段的值  TBL
     额外规则关键参数：_TYPE_ 该参数视为额外参数设定标志
     '''
-    def __init__(self,parent,field):
+    def __init__(self,parent,field,type='Varchar'):
         super().__init__()
+        self.parent = parent
         self.title('Extra property')
         self.geometry('420x300')
+        self.geometry('%dx%d+%d+%d' % self.center_window(420, 300))
         extras = tkinter.StringVar(value=('value list','Table'))
         self.extrasList= tkinter.Listbox(self,listvariable=extras)
         self.extrasList.grid(row=0,column=0)
         self.extrasList.bind('<Double-Button-1>', self.selectExtra)
         self.frm = tkinter.Frame(self)
         self.frm.grid(row=0,column=1)
-        self.parent = parent
+
         self.field = field
+        self.type = type
+        if type == 'TimeStamp':
+            extras.set(('当前时间'))
         if self.parent.extras.get(self.field):
             if self.parent.extras[self.field].get('_TYPE_')=='LIST':
                 self.extrasList.select_set(0)
@@ -27,17 +32,52 @@ class DialogExtraRule(tkinter.Toplevel):
             elif self.parent.extras[self.field].get('_TYPE_')=='TBL':
                 self.extrasList.select_set(1)
                 self.createTblWin()
+            elif self.parent.extras[self.field].get('_TYPE_') == 'TIME':
+                self.extrasList.select_set(0)
+                self.createTimeStampWin()
+                # if type == 'TimeStamp':
+                #     extras.set(('当前时间'))
+                #     pass
+                pass
         pass
+    def center_window(self, w, h):
+        # 获取屏幕 宽、高
+        ws = self.winfo_screenwidth()
+        hs = self.winfo_screenheight()
+        # 计算 x, y 位置
+        x = (ws / 2) - (w / 2)
+        y = (hs / 2) - (h / 2)
+        return (w, h, x, y)
     #选择某个额外规则
     def selectExtra(self,event):
         sel = self.extrasList.curselection()[0]
         self.frm.destroy()
+        if self.type == 'TimeStamp':
+            self.createTimeStampWin()
+            return True
         if sel == 0:
             self.createValuesWin()
         elif sel == 1:
             self.createTblWin()
         print(sel)
     #创建固定列表窗口
+    def createTimeStampWin(self):
+        self.frm = tkinter.Frame(self)
+        self.frm.grid(row=0,column=1)
+        self.isNow = tkinter.BooleanVar()
+        if self.parent.extras.get(self.field):
+            self.isNow.set(self.parent.extras[self.field].get('now'))
+        tkinter.Label(self.frm,text='Now:').pack(side=tkinter.LEFT)
+        tkinter.Checkbutton(self.frm,variable=self.isNow).pack(side=tkinter.LEFT)
+        tkinter.Button(self.frm, text='Ok', command=lambda: self.getTimeStamp()).pack(side=tkinter.LEFT)
+        pass
+    def getTimeStamp(self):
+        if self.isNow.get():
+            self.parent.extras[self.field] = {'_TYPE_': 'TIME', 'now': self.isNow.get()}
+        else:
+            self.parent.extras[self.field] = {}
+
+        print(self.parent.extras)
     def createValuesWin(self):
         self.frm = tkinter.Frame(self)
         self.frm.grid(row=0,column=1)
