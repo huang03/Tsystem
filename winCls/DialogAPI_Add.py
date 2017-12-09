@@ -1,8 +1,11 @@
 import tkinter,json
+import Constants
 from tkinter.messagebox import *
 from dbs.MysqlT import MysqlT
+from rules.APIRules import APIRule
 class DialogAPI_Add(tkinter.Toplevel):
     def __init__(self):
+
         super().__init__()
         self.title('API ADD')
         self.geometry('600x400')
@@ -47,6 +50,7 @@ class DialogAPI_Add(tkinter.Toplevel):
         # self.Apis = tkinter.Listbox(self,width=500,height=200)
         # self.Apis.pack(side=tkinter.TOP,fill='x')
 
+        self.propertyType = list(Constants.API_RULE_TYPE.keys())
     def add(self):
         print(self.isEmpty())
         if not self.isEmpty():
@@ -61,8 +65,9 @@ class DialogAPI_Add(tkinter.Toplevel):
         tkinter.Label(frm,text='Name：').grid(row=self.row,column=0)
         tkinter.Entry(frm,textvariable=name).grid(row=self.row, column=1)
 
-        Options = ["定值", "范围", "默认"]
-        tkinter.OptionMenu(frm,choice,*Options).grid(row=self.row,column=2)
+
+        # Options = ["定值", "范围", "默认"]
+        tkinter.OptionMenu(frm,choice,*self.propertyType).grid(row=self.row,column=2)
         tkinter.Entry(frm,textvariable=var).grid(row=self.row, column=3)
         row = self.row
         tkinter.Button(frm,text='delete',command=lambda :self.delete(frm,row)).grid(row=self.row, column=4)
@@ -84,12 +89,12 @@ class DialogAPI_Add(tkinter.Toplevel):
                 return False
         return True
     def submit(self):
-        if self.title.get() is '':
-            showinfo('Tip','Name must input')
-            return False
-        if self.url.get() is '':
-            showinfo('Tip','API must input')
-            return False
+        # if self.title.get() is '':
+        #     showinfo('Tip','Name must input')
+        #     return False
+        # if self.url.get() is '':
+        #     showinfo('Tip','API must input')
+        #     return False
         if len(self.values)<1:
             showinfo('Tip','At least one property ')
             return False
@@ -100,12 +105,19 @@ class DialogAPI_Add(tkinter.Toplevel):
         for v in self.values:
             key = v['name'].get()
             datas[key] = {
-                'type':v['type'].get(),
+                'type':Constants.API_RULE_TYPE[v['type'].get()],
                 'value':v['value'].get()
             }
+
+        # print(datas)
+        # return False
+        APIRuleOjb = APIRule()
+        if  APIRuleOjb.checkAPI(self.url.get(),Constants.REQUEST_TYPE[self.requestType.get()],self.title.get(),datas) is False:
+            showinfo('Tip',APIRuleOjb.getError())
+            return False
         operator = MysqlT()
-        RTYPES = {'POST':1,'GET':0}
-        data = ('1', self.url.get(), self.title.get(),RTYPES[self.requestType.get()])
+        # RTYPES = {'POST':1,'GET':0}
+        data = ('1', self.url.get(), self.title.get(),Constants.REQUEST_TYPE[self.requestType.get()])
         # return True;
         try:
             result0 = operator.add({

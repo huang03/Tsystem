@@ -9,7 +9,12 @@ from winCls.DialogTableRules import TableRules
 from winCls.DialogDbConnect import DialogDbConnect
 from winCls.DialogTableList import DialogTableList
 from winCls.DialogAPI import DialogAPI
+from runs.APIRun import APIRun
+from runs.DBRun import DBRun
+from runs.Runs import Runs
+from rules2.RuleFactory import RuleFactory
 from VisitUrl import VisitUrl
+import Constants
 # from urllib import request,parse,error
 #Show Tables 查询数据库的所有表
 #show columns from tbl_role  查询表中的所有字段属性
@@ -66,6 +71,8 @@ class RunTSystem(tkinter.Tk):
         # self.apiFrame = tkinter.Frame(bg='purple')
 
         # P.createItem()
+        self.RUNS = Runs()
+
 
         self.logsFrame = tkinter.Frame(bg='red',width=796,height=200)
         self.logsFrame.grid(row=2,column=0,sticky=tkinter.W)
@@ -74,13 +81,15 @@ class RunTSystem(tkinter.Tk):
         self.logs = LogsList(self.logsFrame)
         self.RPG.setLogsObj(self.logs)
 
-        P = ApiItems(self.taskFram, self.RPG)
+
+        P = ApiItems(self.taskFram, self.RUNS)
 
         pass
     #运行任务
     def runTasks(self):
-        self.RPG.runs()
-        self.setIntervalTm()
+        self.RUNS.run()
+        # self.RPG.runs()
+        # self.setIntervalTm()
     #停止任务
     def stopTasks(self):
         self.RPG.stopRuns()
@@ -110,23 +119,15 @@ class RunTSystem(tkinter.Tk):
         self.wait_window(dialog)
 
         if self.currTbl != '':
-            # print(111111111)
             dialogTR = TableRules(self.currTbl,parent) #规则设置窗口
             self.wait_window(dialogTR)
             parent.deiconify()
-            # print(2222222)
             self.currTbl = ''
         else:
             # parent.update()
             parent.deiconify()
         pass
 
-    # def donothing(self,dialog):
-    #
-    #     dialog.destroy()
-    #     pass
-
-    # widget.protocol("WM_DELETE_WINDOW", donothing)
     #数据库属性设置窗口
     def openSetDdConnectWindow(self,parent):
         dialog = DialogDbConnect(parent);
@@ -144,7 +145,7 @@ class RunTSystem(tkinter.Tk):
             'select':'tbl,id,extra',
             'condtion':'user_id=1'
         })
-        Items = InsertItems(self.taskFram,result,self.RPG)
+        Items = InsertItems(self.taskFram,result,self.RUNS)
 
 
 #运行记录
@@ -157,31 +158,70 @@ class LogsList:
     pass
 
 class ApiItems:
-    def __init__(self,parent,PRG):
+    def __init__(self,parent,RUNS):
         self.createItem(parent)
+        self._ruleFactory = RuleFactory()
+        self._RUNS = RUNS
+        self._VisitUrl = VisitUrl()
+        # self._TMysql = MysqlT()
         pass
     def _getData(self):
         operator = MysqlT()
         result = operator.queryAll({
             'table':'tsys_api_items',
-            'select':'title,api',
-            'condtion':'user_id=1'
+            'select':'id,title,api,type',
+            'condition':'user_id=1'
         })
-
+        operator.close()
         # print(result)
         return result
         pass
     def createItem(self,parent):
         items = self._getData();
-        frm = tkinter.Frame(parent,height = 200,width = 400, bg='red')
+        frm = tkinter.Frame(parent,height = 200,width = 400)
+        row = 0;
+        # print(items)
         for item in items:
+            column = 0
+            # self.RPG = RPG
+            # self.data = {}
+            tkinter.Label(frm, text=row + 1).grid(row=row, column=column, padx=10, pady=5)
+            column += 2
+            tkinter.Label(frm, text=item['title']).grid(row=row, column=column, padx=20, pady=5)
+            column += 1
+            column += 1
+            id = item['id']
 
-            tkinter.Label(frm,text=item['title']).pack(side=tkinter.TOP,fill='x')
+            tkinter.Button(frm, text='Run',command=lambda :self.run(item)).grid(row=row, column=column, padx=10, pady=5)
+            # tkinter.Label(frm,text=item['title']).pack(side=tkinter.TOP,fill='x')
+            row += 1;
 
-            print(item)
-        frm.pack(side=tkinter.LEFT)
+        frm.pack(side=tkinter.LEFT, fill=tkinter.BOTH)
         frm.pack_propagate(0)
         # frm
+        pass
+    def run(self,item):
+        operator = MysqlT()
+        result = operator.queryRow({
+            'table': 'tsys_api_items_detail',
+            'select': 'property',
+            'condition': 'item_id=%d' % item['id']
+        })
+        properties = result['property']
+        properties = json.loads(properties)
+        runObj = APIRun(self._VisitUrl)
+        runObj.addTaskParams(item['api'],item['type'])
+        for key  in properties:
+            property = properties[key]
+            obj = self._ruleFactory.getAPIRule(property['type'],property['value'])
+            runObj.addTask(key,obj)
+        self._RUNS.addRunObj(runObj)
+        # obj = self._ruleFactory.getAPIRule()
+        # self._RUNS.addRunObj(obj)
+        # print(result)
+
+        operator.close()
+
         pass
 class InsertItems:
     '''
@@ -201,10 +241,13 @@ class InsertItems:
             row += 1
         pass
 class InsertItem:
+
     def __init__(self, row, parent, item, RPG):
         column = 0
         self.RPG = RPG
         self.data = {}
+        self._ruleFactory = RuleFactory()
+        self._DB = MysqlC()
         tkinter.Label(parent, text=row+1).grid(row=row, column=column,padx=10,pady=5)
         column += 2
         tkinter.Label(parent, text=item['tbl']).grid(row=row, column=column,padx=20,pady=5)
@@ -230,6 +273,8 @@ class InsertItem:
         detail = json.loads(detail['property'])
         operatorC = MysqlC()
         tblClm = operatorC.queryBySql('desc '+self.data['tbl'])
+        runObj = DBRun(self._DB)
+        runObj.addTaskParams(self.data['tbl'])
         # print(self.data['tbl'])
         #根据每个字段的属性，生成具体规则类,并加入到运行队列,等待运行
         for clm in tblClm:
@@ -237,12 +282,20 @@ class InsertItem:
             if clm['Extra'] != '':
                 continue;
             if 'varchar' in clm['Type']:
-                obj = VarcharRule(detail[clm['Field']])
+                obj = self._ruleFactory.getAPIRule(Constants.API_RULE_TYPE['varchar'],detail[clm['Field']])
+                # obj = VarcharRule(detail[clm['Field']])
             elif 'int' in clm['Type']:
-                obj = IntegerRule(detail[clm['Field']])
+                obj = self._ruleFactory.getAPIRule(Constants.API_RULE_TYPE['int'], detail[clm['Field']])
+                # obj = IntegerRule(detail[clm['Field']])
             elif 'timestamp' in clm['Type']:
-                obj = TimeStampRule(detail[clm['Field']])
-            self.RPG.addRule(self.data['tbl'],clm['Field'],obj)
+                obj = self._ruleFactory.getAPIRule(Constants.API_RULE_TYPE['int'], detail[clm['Field']])
+
+            if obj:
+                runObj.addTask(clm['Field'],obj)
+                # obj = TimeStampRule(detail[clm['Field']])
+            # self.RPG.addRule(self.data['tbl'],clm['Field'],obj)
+        print('add tbl:' + self.data['tbl'])
+        self.RPG.addRunObj(runObj)
     pass
 
 

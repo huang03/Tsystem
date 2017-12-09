@@ -1,6 +1,7 @@
-from dbs.MysqlC import MysqlC
 import threading
 import time
+from dbs.MysqlC import MysqlC
+from rules.APIRules import APIRule
 class Runs:
     '''
         执行规则，通过设定的规则，根据继承_RUN中类中的具体方式，生成数据，执行具体操作
@@ -9,9 +10,13 @@ class Runs:
         _rules 规则集合 dict   eg {'tbl':{id:rule,name:rule,type:rule}}
     '''
     def __init__(self,rules):
+        self.RUNLIST = []
+        self.RULELIST = []
+
         self._rules = rules
         self._valids = {}
         self.insertRun = None #插入数据的运行类
+        # self.
         self.logsOjb = None
     #运行
     def run(self, errors):
@@ -20,7 +25,8 @@ class Runs:
             self.insertRun = InsertDBRun(self._valids)
             self.insertRun.setLogsObj(self.logsOjb)
         self.insertRun.run()
-
+    def runAPI(self,error):
+        pass
     #停止运行
     def stopRuns(self):
         self.insertRun.stopRuns()
@@ -93,6 +99,14 @@ class _IRUN:
             具体执行过程
         '''
         pass
+class APIRun(_IRUN):
+    def  __init__(self,tasks):
+        super().__init__(tasks)
+        self.APIRuleObj = APIRule()
+        pass
+    def run(self):
+        global  RunThreads
+        global RunThreadsLog
 
 class InsertDBRun(_IRUN):
     '''

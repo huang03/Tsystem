@@ -1,12 +1,15 @@
-import json
+import json,os
 # from dbs.MysqlC import MysqlC
 class Comman:
     def getConfig(self):
-        file_obj = open('config.txt', 'r')
+        path = os.path.dirname(os.path.abspath(__file__))
+        file_obj = open(path + '\config.txt', 'r')
         try:
             content = file_obj.read()
             content = json.loads(content)
             return content
+        except Exception as e:
+            print(e)
         finally:
             file_obj.close()
 

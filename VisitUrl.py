@@ -1,4 +1,5 @@
 from urllib import request,parse,error
+import threading
 class VisitUrl:
     '''
     # https://www.cnblogs.com/Lands-ljk/p/5447127.html
@@ -30,33 +31,35 @@ class VisitUrl:
 
 
     # def getR
+    def getRequestThread(self,url):
+        t = threading.Thread(target=self._getRequest, args=(url,))
+        t.start()
+        return t
+        # t.join()
     def getRequest(self,url):
         if not self._checkUrl(url):
             return False
-        req = request.Request(url,headers=self.headers)
         try:
-
+            req = request.Request(url, headers=self.headers)
             response = request.urlopen(req)
             self._setResponse(response)
             self._setStatus(response.code)
             return True
-            # print(response.code)
-            # page = response.read()
-            # page = page.decode('utf-8')
-            # response.close()
-            # return page
         except error.HTTPError as e:
-            # print(e.code)
-            # print(self.response)
-
             self._dealException(e)
-            # print(e.code())
-            # print(e.read().decode('utf-8'))
-            # self._setError(e.read().decode('utf-8'))
-            # self._setResponse(None)
             return False
-        pass
+        except error.URLError as e:
+            print(e)
+            self._setError('API 地址错误')
+            self._setResponse(None)
+            self._setStatus(None)
 
+        pass
+    def postRequestThread(self,url,data):
+        t = threading.Thread(target=self._postRequest, args=(url,data))
+        t.start()
+        return t
+        # t.join()
     def postRequest(self,url,data):
 
         if not self._checkUrl(url):
@@ -65,23 +68,22 @@ class VisitUrl:
             self._setError('Data can not be empty')
             return False
         # Post的数据必须是bytes或者iterable of bytes，不能是str，因此需要进行encode（）编码
-        data = parse.urlencode(data).encode('utf-8')
-        req = request.Request(url, data=data, headers=self.headers)
         try:
+            data = parse.urlencode(data).encode('utf-8')
+            req = request.Request(url, data=data, headers=self.headers)
             response = request.urlopen(req)
             self._setResponse(response)
             self._setStatus(response.code)
-            # page = response.read()
-
-            # page = page.decode('utf-8')
-            # response.close()
-            # return page
+            return True
         except error.HTTPError as e:
             self._dealException(e)
-            # print(e.code())
-            # self._setError(e.read().decode('utf-8'))
-            # print(e.read().decode('utf-8'))
             return False
+        except Exception as e:
+            self._setError('API 地址错误')
+            self._setResponse(None)
+            self._setStatus(None)
+            return False
+        return True
         pass
     #代理
     def proxy(self,url,data):
@@ -117,7 +119,7 @@ class VisitUrl:
         return content
     def _dealException(self,E):
         self._setStatus(E.code)
-        self._setStatus(E.code)
+        # self._setStatus(E.code)
         # print(E.__dict__)
         # self._setError(E.read().decode('utf-8'))
         self._setError('%d %s' %(E.code,E.msg))

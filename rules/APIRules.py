@@ -1,32 +1,66 @@
+import  Constants
 from VisitUrl import VisitUrl
+
 from dbs.mysqlBase import MySQLBase
 class APIRule:
     def __init__(self):
         self.Visit = VisitUrl()
         self._error = None
         self.propertis = {}
-
-    def checkProperty(self,type,value):
-        # if self.Visit is None:
-        #     self.Visit = VisitUrl()
+    def getAPIRule(self,type):
         obj = None
-        if type is 'DEFAULT':
+        if type is Constants.API_RULE_TYPE['默认']:
             obj = DefaultValueRule()
-        elif type is 'LIST':
+        elif type is Constants.API_RULE_TYPE['定值']:
             obj = ValueListRule()
-        elif type is 'RANGE':
+        elif type is Constants.API_RULE_TYPE['范围']:
             obj = RangeRule()
         elif type is 'TABLE':
             obj = TableRule()
-        params = obj.parseParams(value)
-        if not params:
-            self._setError(obj.getError())
+        return obj
+    def checkAPI(self,url,requestType,title,datas):
+        requestParams = {};
+        if self._checkTitle(title) is False:
+            return False
+        for key in datas:
+            print(key)
+            result = self.checkProperty(datas[key])
+            if result is False:
+                return False
+            requestParams[key] = result
+        if self._checkUrl(url, requestType, requestParams) is False:
             return False
         return True
-        # if obj is not None:
-            # obj.setVisitObj(self.Visit)
-        # return obj
+        pass
+    def checkProperty(self,data):
+        if type(data) is not type({}):
+            self._setError('Params must be dict')
+            return False
 
+        if data.get('type') is None:
+            self._setError('Type properties cannot be found in data ')
+            return False
+        if data.get('value') is None  or data.get('value') is '':
+            self._setError('value can not be empty')
+            return False
+        obj = self.getAPIRule(data.get('type'))
+        if not None:
+            self._setError('data Type is not exisit')
+            return False
+        # obj = None
+        # if data.get('type') is 2:
+        #     obj = DefaultValueRule()
+        # elif data.get('type') is 0:
+        #     obj = ValueListRule()
+        # elif data.get('type') is 1:
+        #     obj = RangeRule()
+        # elif data.get('type') is 'TABLE':
+        #     obj = TableRule()
+        params = obj.parseParams(data.get('value'))
+        if params is False:
+            self._setError(obj.getError())
+            return False
+        return params
     def _setError(self,error):
         self._error = error
         pass
@@ -40,15 +74,20 @@ class APIRule:
         if url is '':
             self._setError('Url can not be empty')
             return False
-        if requestType == 0:
-            # url = url + '?' + self.params
-            # print(url)
+        if requestType is Constants.REQUEST_TYPE['GET']:
+            paramsStr = ''
+            for key in params:
+                paramsStr = paramsStr + key + '=' + params[key]+'&'
+
+            paramsStr = paramsStr.strip('&')
+            url = url + '?' + paramsStr
+            print(url)
             self.Visit.getRequest(url)
         else:
             self.Visit.postRequest(url, params)
 
         response = self.Visit.getResponse()
-        print(self.Visit.getStatus())
+        # print(self.Visit.getStatus())
         if response is None or self.Visit.getStatus() > 399:
             self._setError(self.Visit.getError())
             return False
@@ -63,90 +102,24 @@ class APIRule:
         return True
         pass
 
-    def validates(self, title, url, requestType, params):
-        pass
-        if self.Visit is None:
-            self._setError('Visit is None')
-            return False
-        # self._setParams(params, requestType)
-        if not self._checkTitle(title) or not self._checkUrl(url, requestType, params):
-            return False
-        return True
-    # def
-        # return False
     pass
 class IAPIRule:
     def __init__(self):
         self._error = None
-        # self.Visit = None
         self.params = ''
         pass
-    # def setVisitObj(self,obj):
-    #     self.Visit = obj
-    # def _checkUrl(self,url,requestType,params={}):
-    #     url = url.strip()
-    #     if url is '':
-    #         self._setError('Url can not be empty')
-    #         return False
-    #     if requestType == 0:
-    #        url = url + '?' + self.params
-    #        print(url)
-    #        self.Visit.getRequest(url)
-    #     else:
-    #        self.Visit.postRequest(url,params)
-    #
-    #     response = self.Visit.getResponse()
-    #
-    #     print(self.Visit.getStatus())
-    #     if response is None or self.Visit.getStatus()>399:
-    #         self._setError(self.Visit.getError())
-    #         return False
-    #     return True
-    #     pass
-
-    # def _setParams(self,values,requestType):
-    #     params = self._parseParams(values);
-    #     if requestType == 0:
-    #         tmp = ''
-    #         for key in params:
-    #             tmp = tmp + key + '=' + params[key] + '&'
-    #         self.params = tmp.strip('&')
-    #     else:
-    #         self.params = params
-    #     pass
     def parseParams(self,values):
         pass
-    # def _getParams(self):
-    # def _checkTitle(self,title):
-    #     title = title.strip()
-    #     if title is '':
-    #         self._setError('Title can not be empty')
-    #         return False
-    #     return True
-    #     pass
     def _setError(self,error):
         self._error = error
         pass
     def getError(self):
         return self._error
         pass
-    # def validates(self,title,url,requestType,params):
-    #     pass
-    #     if self.Visit is None:
-    #         self._setError('Visit is None')
-    #         return False
-    #     self._setParams(params,requestType)
-    #     if not self._checkTitle(title) or not self._checkUrl(url,requestType,params):
-    #         return False
-    #     return True
-
 
 class DefaultValueRule(IAPIRule):
     def parseParams(self,values):
         values = values.strip()
-        if values is '':
-            self._setError('value can not be empty')
-            return False
         return values
         pass
 
@@ -154,12 +127,22 @@ class DefaultValueRule(IAPIRule):
 
 class ValueListRule(IAPIRule):
     def parseParams(self,values):
+        tmp = values.split(',')
+        if len(tmp)>0:
+            return tmp[0]
+        return False
         pass
 
     pass
 
 class RangeRule(IAPIRule):
     def parseParams(self,values):
+        tmp = values.split(',')
+        if len(tmp)>1:
+            return tmp[0]
+        else:
+            self._setError('the format of Range Value is xx,xx and  Integer')
+            return False
         pass
     pass
 
@@ -170,7 +153,18 @@ class TableRule(IAPIRule):
     pass
 
 if __name__ == '__main__':
+    pass
     Rules = APIRule()
+    result = Rules.checkAPI('http://127.0.0.1/py_test.php',0, 'Title',{'a1':{'value':'2,5','type':1},'a2':{'value':'2,5','type':2}})
+    print(result)
+    if result is False:
+        print(Rules.getError())
+    print(121212)
+    # result = Rules.checkProperty({'value':'2,5','type':1})
+    # if not result:
+    #     print(Rules.getError())
+    #     # print(result)
+    # print(result)
     #每个属性需要验证,需要解析value,和生成 value 值， 提交是，需要结合参数，验证url的可行性
     #需要验证 DefaultRule...的规则，然后验证提交的，url的正确性
     # Rules = V
