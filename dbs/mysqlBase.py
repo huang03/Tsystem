@@ -43,6 +43,13 @@ class MySQLBase(Base):
     def queryBySql(self,sql):
         self._cursor.execute(sql)
         return self._cursor.fetchall()
+
+    def queryScalarBySql(self, sql):
+        self._cursor.execute(sql)
+        result = self._cursor.fetchone()
+        if result:
+            return list(result.values())[0];
+        return None
     def queryAll(self,params):
         '''
             params需要 table select
@@ -217,7 +224,7 @@ class MySQLBase(Base):
             self._sql = self._sql + ' ORDER BY ' + params.get('order') + ' '
 
         if params.get('limit'):
-            self._sql = self._sql + ' ' + params.get('limit')
+            self._sql = self._sql + ' LIMIT ' + params.get('limit')
     def getLastId(self):
         return self._cursor.lastrowid
     def close(self):

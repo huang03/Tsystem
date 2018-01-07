@@ -13,7 +13,7 @@ class DBRun(IRun):
     def run(self):
         self._fields = tuple(self._rules)
         try:
-            print(self._rules)
+            #print(self._rules)
             values = tuple(self._rules[v].getValue() for v in self._fields)
             params = {
                 'table': self._params['tbl'],

@@ -1,1 +1,1 @@
-{"passWord": "passwd", "port": 3306, "userName": "func", "host": "127.0.0.1", "db": "xmis"}
+{"host": "127.0.0.1", "passWord": "passwd", "db": "tsystem", "userName": "func", "port": 3306}

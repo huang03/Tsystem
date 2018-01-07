@@ -20,7 +20,7 @@ import Constants
 #show columns from tbl_role  查询表中的所有字段属性
 
 
-
+from views.VarcharView import VarcharView
 class RunTSystem(tkinter.Tk):
     '''
     主要运行函数
@@ -32,6 +32,8 @@ class RunTSystem(tkinter.Tk):
         self.resizable(False,False)
 
         self.geometry('%dx%d+%d+%d' % self.center_window(800,500))
+
+        # a = VarcharView()
         self.currTbl = '' #记录当前选择表
         self.intervalTm = tkinter.StringVar() #记录任务执行频率
         self.initial()
@@ -216,10 +218,6 @@ class ApiItems:
             obj = self._ruleFactory.getAPIRule(property['type'],property['value'])
             runObj.addTask(key,obj)
         self._RUNS.addRunObj(runObj)
-        # obj = self._ruleFactory.getAPIRule()
-        # self._RUNS.addRunObj(obj)
-        # print(result)
-
         operator.close()
 
         pass
@@ -258,7 +256,7 @@ class InsertItem:
         pass
     def getData(self):
         return self.data
-    def run(self):
+    def run(self): #需要设置重复加载
         '''
         将该表的数据生成规则，实例化具体的规则类，并加入的运行队列，等待执行
         :return:
@@ -275,7 +273,9 @@ class InsertItem:
         tblClm = operatorC.queryBySql('desc '+self.data['tbl'])
         runObj = DBRun(self._DB)
         runObj.addTaskParams(self.data['tbl'])
-        # print(self.data['tbl'])
+        # if self.data.get('tbl'):
+        #     return False;
+
         #根据每个字段的属性，生成具体规则类,并加入到运行队列,等待运行
         for clm in tblClm:
             obj = None
@@ -288,12 +288,11 @@ class InsertItem:
                 obj = self._ruleFactory.getAPIRule(Constants.API_RULE_TYPE['int'], detail[clm['Field']])
                 # obj = IntegerRule(detail[clm['Field']])
             elif 'timestamp' in clm['Type']:
-                obj = self._ruleFactory.getAPIRule(Constants.API_RULE_TYPE['int'], detail[clm['Field']])
+                obj = self._ruleFactory.getAPIRule(Constants.API_RULE_TYPE['timestamp'], detail[clm['Field']])
 
             if obj:
                 runObj.addTask(clm['Field'],obj)
-                # obj = TimeStampRule(detail[clm['Field']])
-            # self.RPG.addRule(self.data['tbl'],clm['Field'],obj)
+
         print('add tbl:' + self.data['tbl'])
         self.RPG.addRunObj(runObj)
     pass

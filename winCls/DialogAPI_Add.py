@@ -3,6 +3,7 @@ import Constants
 from tkinter.messagebox import *
 from dbs.MysqlT import MysqlT
 from rules.APIRules import APIRule
+from rules2.API_Validate import APIValidate
 class DialogAPI_Add(tkinter.Toplevel):
     def __init__(self):
 
@@ -89,32 +90,39 @@ class DialogAPI_Add(tkinter.Toplevel):
                 return False
         return True
     def submit(self):
-        # if self.title.get() is '':
-        #     showinfo('Tip','Name must input')
-        #     return False
-        # if self.url.get() is '':
-        #     showinfo('Tip','API must input')
-        #     return False
         if len(self.values)<1:
             showinfo('Tip','At least one property ')
             return False
         if not self.isEmpty():
             showinfo('Tip','please full with data for all')
             return False
+        validate = APIValidate()
+        validate.addExtraParams(self.title.get(),self.url.get(),Constants.REQUEST_TYPE[self.requestType.get()])
         datas = {}
         for v in self.values:
             key = v['name'].get()
-            datas[key] = {
-                'type':Constants.API_RULE_TYPE[v['type'].get()],
-                'value':v['value'].get()
+            tmp = {
+                'type': Constants.API_RULE_TYPE[v['type'].get()],
+                'value': v['value'].get()
             }
-
+            # datas[key] = {
+            #     'type':Constants.API_RULE_TYPE[v['type'].get()],
+            #     'value':v['value'].get()
+            # }
+            if validate.addProperty(key,tmp) is False:
+                showinfo('Tip', validate.getError())
+                return False
+        if validate.validate() is False:
+            showinfo('Tip', validate.getError())
+            return False
+        # return True
+        # validate
         # print(datas)
         # return False
-        APIRuleOjb = APIRule()
-        if  APIRuleOjb.checkAPI(self.url.get(),Constants.REQUEST_TYPE[self.requestType.get()],self.title.get(),datas) is False:
-            showinfo('Tip',APIRuleOjb.getError())
-            return False
+        # APIRuleOjb = APIRule()
+        # if  APIRuleOjb.checkAPI(self.url.get(),Constants.REQUEST_TYPE[self.requestType.get()],self.title.get(),datas) is False:
+        #     showinfo('Tip',APIRuleOjb.getError())
+        #     return False
         operator = MysqlT()
         # RTYPES = {'POST':1,'GET':0}
         data = ('1', self.url.get(), self.title.get(),Constants.REQUEST_TYPE[self.requestType.get()])

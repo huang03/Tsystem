@@ -53,7 +53,11 @@ class VisitUrl:
             self._setError('API 地址错误')
             self._setResponse(None)
             self._setStatus(None)
-
+        except Exception as e:
+            self._setError(str(e))
+            self._setResponse(None)
+            self._setStatus(None)
+            # print(e)
         pass
     def postRequestThread(self,url,data):
         t = threading.Thread(target=self._postRequest, args=(url,data))
@@ -78,11 +82,21 @@ class VisitUrl:
         except error.HTTPError as e:
             self._dealException(e)
             return False
-        except Exception as e:
+        except error.URLError as e:
+            print(e)
             self._setError('API 地址错误')
             self._setResponse(None)
             self._setStatus(None)
-            return False
+        except Exception as e:
+            self._setError(str(e))
+            self._setResponse(None)
+            self._setStatus(None)
+        # except Exception as e:
+        #     self._setError('API 地址错误')
+        #     self._setResponse(None)
+        #     self._setStatus(None)
+        #     return False
+
         return True
         pass
     #代理
@@ -128,3 +142,7 @@ class VisitUrl:
         return self._status
     def _setStatus(self,code):
         self._status = code
+
+if __name__ == '__main__':
+    V = VisitUrl()
+    V.getRequest('121')

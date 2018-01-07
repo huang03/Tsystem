@@ -109,21 +109,6 @@ class VarcharView(_RView):
     参数包括 字符串前缀，开始值，结束值，步长
     '''
     def _draw(self,node,row):
-        # frm = tkinter.Frame(node)
-        # tkinter.Label(frm,text='前缀字符').pack(side=tkinter.LEFT)
-        # self.prefix = tkinter.Entry(frm)
-        # self.prefix.pack(side=tkinter.LEFT)
-        # tkinter.Label(frm,text='开始值').pack(side=tkinter.LEFT)
-        # self.start = tkinter.Entry(frm)
-        # self.start.pack(side=tkinter.LEFT)
-        # tkinter.Label(frm,text='结束值').pack(side=tkinter.LEFT)
-        # self.end = tkinter.Entry(frm)
-        # self.end.pack(side=tkinter.LEFT)
-        # tkinter.Label(frm,text='步长').pack(side=tkinter.LEFT)
-        # self.step = tkinter.Entry(frm)
-        # self.step.pack(side=tkinter.LEFT)
-        # frm.pack(side=tkinter.LEFT)
-
         tkinter.Label(node,text='开始值').grid(row=row,column=1)
         self.start = tkinter.Entry(node)
         self.start.grid(row=row,column=2)
@@ -161,19 +146,6 @@ class TimeStampView(_RView):
     参数包括:开始时间，结束时间，步长
     '''
     def _draw(self,node,row):
-        # frm = tkinter.Frame(node)
-        # tkinter.Label(frm,text='开始时间').pack(side=tkinter.LEFT)
-        # self.start = tkinter.Entry(frm)
-        # self.start.pack(side=tkinter.LEFT)
-        #
-        # tkinter.Label(frm,text='结束时间').pack(side=tkinter.LEFT)
-        # self.end = tkinter.Entry(frm)
-        # self.end.pack(side=tkinter.LEFT)
-        #
-        # tkinter.Label(frm,text='步长').pack(side=tkinter.LEFT)
-        # self.step = tkinter.Entry(frm)
-        # self.step.pack(side=tkinter.LEFT)
-        # frm.pack(side=tkinter.LEFT)
         tkinter.Label(node, text='开始时间').grid(row=row,column=1)
         self.start = tkinter.Entry(node)
         self.start.grid(row=row,column=2)

@@ -13,11 +13,6 @@ class Runs:
         # self.RunThreadsLog = {}  # 记录表是否生成了线程对象，避免重复生成
     def addRunObj(self,runObj):#runObj  为 IRUN 对象，及 子类对象
         self._RUNLIST.append(runObj)
-        # if not self._RUNLIST.get(key):
-        #     self._RUNLIST[key] = runObj
-        # pass
-    # def addObjTask(self,key,):
-    #     pass
     def clear(self):
         self.stop()
         self._RUNLIST = [];
@@ -28,36 +23,18 @@ class Runs:
     def autoLoadingLogs(self,logObj):
         pass
     def run(self):
-        # index = 20;
-        taskQueue = Queue(1000)
-        print(111)
-        while(True):
-            # rlen = len(self._RUNLIST)
-            for obj in self._RUNLIST:
-                # print(obj)
-                taskQueue.put(obj)
-
-            while not taskQueue.empty():
-                if self.currThreadCount< self.maxThread:
-                    threading.Thread(target=self.execute, args=(taskQueue.get(),)).start()
-
-                else:
-                    time.sleep(0.5)
-            time.sleep(2)
-            # time.sleep(1)
-            pass
-            # for
-            # taskQueue = Queue.Queue()
-        # if self
-        # isinstance()
-        pass
+        threading.Thread(target=self.doTask()).start()
+    def doTask(self):
+        for obj in self._RUNLIST:
+            threading.Thread(target=self.execute, args=(obj,)).start()
     def execute(self,runObj):
-        self.currThreadCount += 1
-        runObj.run()
-        print('aaaa');
-        self.currThreadCount -= 1;
+        pass
+        # self.currThreadCount += 1
+        while(True):
+            runObj.run()
+            time.sleep(1)
+            print('aaaa');
     pass
-
 if __name__ == '__main__':
     R = Runs()
     R.addRunObj(1)
