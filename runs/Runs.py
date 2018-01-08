@@ -32,7 +32,7 @@ class Runs:
         # self.currThreadCount += 1
         while(True):
             runObj.run()
-            time.sleep(1)
+            time.sleep(0.1)
             print('aaaa');
     pass
 if __name__ == '__main__':

@@ -6,7 +6,6 @@ from tkinter.messagebox import *
 class VarcharView(_IView):
     def __init__(self):
         super().__init__()
-        # self._type = 'comman'
         self.title('hello')
         self.geometry('%dx%d+%d+%d' % self.center_window(500, 250))
         self.params = {}
@@ -14,7 +13,6 @@ class VarcharView(_IView):
         self._type = tkinter.StringVar()
         typeChosen = ttk.Combobox(self, width=50, textvariable=self._type)
         typeChosen.pack(side=tkinter.TOP)
-
 
         self._commonFrm = tkinter.Frame(self)
         self._commonFrm.pack(side=tkinter.TOP,fill='x')
@@ -39,7 +37,6 @@ class VarcharView(_IView):
         tkinter.Label(self._listFrm,text='指定列表：').grid(row=1,column=0) #TYPE LIST
         tkinter.Entry(self._listFrm,textvariable=self._list).grid(row=1,column=1)
         self._listFrm.pack(side=tkinter.TOP, fill='x')
-        # listFrm.pack_forget()
 
         self._tableFrm = tkinter.Frame(self)
         self._table = tkinter.StringVar()
@@ -53,8 +50,7 @@ class VarcharView(_IView):
         tkinter.Label(self._sqlFrm,text='SQL：').grid(row=1,column=0) # SQL
         tkinter.Entry(self._sqlFrm,textvariable=self._sql).grid(row=1,column=1)
         self._sqlFrm.pack(side=tkinter.TOP, fill='x')
-        #sqlFrm.pack_forget()
-        #
+
         self._okBtn = tkinter.Button(self,text='OK',command=self.getParams)
         self._okBtn.pack(side=tkinter.TOP)
 
@@ -66,8 +62,8 @@ class VarcharView(_IView):
         }
 
         typeChosen['values'] = ('常规', '指定列表', '表属性', 'SQL')  # 设置下拉列表的值
-        typeChosen.current(0)  # 设置下拉列表默认显示的值，0为 numberChosen['values'] 的下标值
-        typeChosen.bind("<<ComboboxSelected>>",self.choiceType)  # 绑定事件,(下拉列表框被选中时，绑定go()函数)
+        typeChosen.current(0)
+        typeChosen.bind("<<ComboboxSelected>>",self.choiceType)
         self.choiceType()
     def choiceType(self,*args):  # 处理事件，*args表示可变参数
         type = self._type.get();

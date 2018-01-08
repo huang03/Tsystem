@@ -1,51 +1,49 @@
 from dbs.MysqlC import MysqlC
-import math
+import math,random
 class _IRule:
     '''
         规则类接口
-        validate: 验证规则合法性
-        getError
-        setError
 
-        getValue:根据规则生成数据
-
-        属性
-         _metas:元数据
-         _error:错误列表
-         _GrtData:生成数据的类
+        params：{
+            start: 开始值
+            end: 结束值
+            prefix:  字符串前缀
+            sql: 查询的sql
+            table: 表,属性
+            list: 列表值  eg:1,2,3,4
+            _TYPE_:类型
+        }
+        类型包括：常规 COMMAN  列表：LIST 表属性：TABLE  SQL:SQL  当前时间：NOW
     '''
     def __init__(self,params):
-        self.params = params
-        self._error = None
-        self._currValue = None
-        self._currValues = None
-    def validate(self):
-        pass
+        self.params = params #需要验证的参数
+        self._error = None #当前错误信息
+        self._currValue = None #根据规则生成的值
+        self._currValues = None #作为列名使用
+
+
     def getError(self):
         return self._error
+
     def _setError(self,error):
         self._error = error
-    #
-    # def getMetas(self):
-    #     return self.params
-    #
-    # def setMetas(self,params):
-    #     self._metas = params
-    #     del params
+
+    #根据规则产生值
     def getValue(self):
-        if self.params['_TYPE_'] == 'COMMAN':
+        if self.params['_TYPE_'] == 'COMMAN': #常规
             return self._getCommanValue()
-        elif self.params['_TYPE_'] == 'LIST':
+        elif self.params['_TYPE_'] == 'LIST': #列表值
             return self._getListValue()
-        elif self.params['_TYPE_'] == 'TABLE':
+        elif self.params['_TYPE_'] == 'TABLE': #表属性值
             return self._getTableValue()
-        elif self.params['_TYPE_'] == 'SQL':
+        elif self.params['_TYPE_'] == 'SQL': #SQL
             return self._getSqlValue()
+        elif self.params['_TYPE_'] == 'NOW': #获取当前时间
+            return self._getNowValue()
         return None
         pass
-
+    #验证参数值
     def validate(self, type='COMMAN'):
-
         if type is 'COMMAN':
             return self._validateComman()
         elif type is 'LIST':
@@ -54,8 +52,11 @@ class _IRule:
             return self._validateSql()
         elif type is 'TABLE':
             return self._validateTable()
+        elif type is 'NOW':
+            return True
         return False;
 
+    #验证表属性，数据要求  数据表,表属性   逗号分隔
     def _validateTable(self):
         if self.params.get('table')  == '':
             self._setError('表属性不能为空:格式为：table,propery')
@@ -69,6 +70,7 @@ class _IRule:
         return True
         pass
 
+    #验证SQL是否正确
     def _validateSql(self):
         if self.params.get('sql')  == '':
             self._setError('请输入正确的SQL语句')
@@ -81,7 +83,7 @@ class _IRule:
             self._setError(str(E))
         return False
         pass
-
+    #验证列表值   数据规则   xx,xx,xxx 以逗号分隔
     def _validateList(self):
         if self.params.get('list') == '':
             self._setError('指定列表不能为空')
@@ -89,15 +91,11 @@ class _IRule:
         return True
         pass
 
+    #常规验证
     def _validateComman(self):
-        # RInteger = IntegerRule(self.params)
-        # if not self._RInteger.validate():
-        #     self._setError(self._RInteger.getError())
-        #     return False
-        # if not self.params.get('prefix'):
-        #     self.params['prefix'] = 'tsys-'
         return True
 
+    #检查表属性是否存在
     def _checkTableProperty(self,table,property):
         try:
             operator = MysqlC()
@@ -116,9 +114,15 @@ class _IRule:
             self._setError(str(E))
         return False
 
+    #获取常规值
     def _getCommanValue(self):
         return False
 
+    #获取当前时间
+    def _getNowValue(self):
+        pass
+
+    #获取列表值
     def _getListValue(self):
         if self._currValues is None:
             self._currValues = self.params.get('list').split(',')
@@ -130,6 +134,7 @@ class _IRule:
         self._currValue += 1
         return tmp
 
+    #获取表属性值
     def _getTableValue(self):
         try:
             if self._currValues is None:
@@ -138,6 +143,7 @@ class _IRule:
                 self.operator = MysqlC()
                 sql = 'SELECT COUNT(*) FROM %s' % self._currValues[0];
                 self._ct = self.operator.queryScalarBySql(sql)
+
             offset = math.floor(self._ct * random.random())
             self._currValue = self.operator.queryScalar({
                 'table': self._currValues[0],
@@ -153,7 +159,7 @@ class _IRule:
         except Exception as E:
             print(E)
 
-        pass
+    #获取SQL值
     def _getSqlValue(self):
         if self._currValues is None:
             self._currValues = True

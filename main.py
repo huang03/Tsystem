@@ -1,8 +1,7 @@
 import tkinter
 import json
 from rules.RuleViews import *
-from rules.Rules import *
-from rules.RulePackages import RPackages
+
 from dbs.MysqlC import MysqlC
 from dbs.MysqlT import MysqlT
 from winCls.DialogTableRules import TableRules
@@ -15,25 +14,18 @@ from runs.Runs import Runs
 from rules2.RuleFactory import RuleFactory
 from VisitUrl import VisitUrl
 import Constants
-# from urllib import request,parse,error
-#Show Tables 查询数据库的所有表
-#show columns from tbl_role  查询表中的所有字段属性
 
-
-from views.VarcharView import VarcharView
 class RunTSystem(tkinter.Tk):
     '''
     主要运行函数
     '''
     def __init__(self):
-        self.RPG = RPackages()
+        # self.RPG = RPackages()
         super().__init__()
         self.title('Tsystem')
         self.resizable(False,False)
-
         self.geometry('%dx%d+%d+%d' % self.center_window(800,500))
 
-        # a = VarcharView()
         self.currTbl = '' #记录当前选择表
         self.intervalTm = tkinter.StringVar() #记录任务执行频率
         self.initial()
@@ -70,10 +62,7 @@ class RunTSystem(tkinter.Tk):
         self.taskFram.grid(row=1,column=0,pady=5,sticky=tkinter.W)
         self.taskFram.grid_propagate(0)
 
-        # self.apiFrame = tkinter.Frame(bg='purple')
-
-        # P.createItem()
-        self.RUNS = Runs()
+        self.RUNS = Runs()#运行规则类
 
 
         self.logsFrame = tkinter.Frame(bg='red',width=796,height=200)
@@ -81,42 +70,33 @@ class RunTSystem(tkinter.Tk):
 
         self.listInsertItem()
         self.logs = LogsList(self.logsFrame)
-        self.RPG.setLogsObj(self.logs)
 
 
-        P = ApiItems(self.taskFram, self.RUNS)
+
+        # P = ApiItems(self.taskFram, self.RUNS)
 
         pass
     #运行任务
     def runTasks(self):
         self.RUNS.run()
-        # self.RPG.runs()
-        # self.setIntervalTm()
+
     #停止任务
     def stopTasks(self):
-        self.RPG.stopRuns()
+
         pass
     #设置任务执行频率
     def setIntervalTm(self):
         if self.intervalTm.get() == '':
             self.intervalTm.set(0.1)
-        self.RPG.setInterval(self.intervalTm.get())
+
 
     def openWindow(self):
         dialog = DialogAPI(self)
         pass
-        # top = tkinter.Toplevel()
-        # top.title('Hello')
-        # top.focus_set()
-        # top.attributes("-toolwindow", 1)
-        # top.wm_attributes("-topmost", 1)
-        # top.iconify()
-        # top.withdraw()
-        # top.deiconify()
+
     #打开数据库，数据列表窗口，对数据表设置添加规则
     def openTableListWindow(self,parent):
         dialog = DialogTableList(parent)
-        # dialog.protocol('WM_DELETE_WINDOW',lambda :self.donothing(dialog))
         parent.withdraw()
         self.wait_window(dialog)
 
@@ -126,7 +106,6 @@ class RunTSystem(tkinter.Tk):
             parent.deiconify()
             self.currTbl = ''
         else:
-            # parent.update()
             parent.deiconify()
         pass
 
@@ -185,8 +164,6 @@ class ApiItems:
         # print(items)
         for item in items:
             column = 0
-            # self.RPG = RPG
-            # self.data = {}
             tkinter.Label(frm, text=row + 1).grid(row=row, column=column, padx=10, pady=5)
             column += 2
             tkinter.Label(frm, text=item['title']).grid(row=row, column=column, padx=20, pady=5)
@@ -225,24 +202,22 @@ class InsertItems:
     '''
     根据用户的设置规则，为每个表生成一个item,每个item包含表中，每个字段属性的数据生成规则，在点击运行，之后，可以根据该规则，生成每个字段的值，并且将数据插入到数据库
     '''
-    def __init__(self,parent,items,RPG):
-        # self._objs = []
-        # self.items = items
+    def __init__(self,parent,items,RUNS):
         frm = tkinter.Frame(parent,height = 200,width = 400,bg='pink')
         frm.pack(side=tkinter.LEFT,fill=tkinter.BOTH)
         frm.pack_propagate(0)
-        self.createItem(frm,items,RPG)
-    def createItem(self,frm,items,RPG):
+        self.createItem(frm,items,RUNS)
+    def createItem(self,frm,items,RUNS):
         row = 0
         for item in items:
-            obj = InsertItem(row,frm,item,RPG)
+            obj = InsertItem(row,frm,item,RUNS)
             row += 1
         pass
 class InsertItem:
 
-    def __init__(self, row, parent, item, RPG):
+    def __init__(self, row, parent, item, RUNS):
         column = 0
-        self.RPG = RPG
+        self._RUNS = RUNS
         self.data = {}
         self._ruleFactory = RuleFactory()
         self._DB = MysqlC()
@@ -294,7 +269,7 @@ class InsertItem:
                 runObj.addTask(clm['Field'],obj)
 
         print('add tbl:' + self.data['tbl'])
-        self.RPG.addRunObj(runObj)
+        self._RUNS.addRunObj(runObj)
     pass
 
 

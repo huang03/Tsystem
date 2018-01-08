@@ -4,6 +4,9 @@ from views._IView import _IView
 from rules2.DB_IntegerRule import IntegerRule
 from tkinter.messagebox import *
 class IntegerView(_IView):
+    '''
+
+    '''
     def __init__(self):
         super().__init__()
 
@@ -39,7 +42,7 @@ class IntegerView(_IView):
         tkinter.Label(self._listFrm,text='指定列表：').grid(row=1,column=0) #TYPE LIST
         tkinter.Entry(self._listFrm,textvariable=self._list).grid(row=1,column=1)
         self._listFrm.pack(side=tkinter.TOP, fill='x')
-        # listFrm.pack_forget()
+
 
         self._tableFrm = tkinter.Frame(self)
         self._table = tkinter.StringVar()
@@ -53,8 +56,8 @@ class IntegerView(_IView):
         tkinter.Label(self._sqlFrm,text='SQL：').grid(row=1,column=0) # SQL
         tkinter.Entry(self._sqlFrm,textvariable=self._sql).grid(row=1,column=1)
         self._sqlFrm.pack(side=tkinter.TOP, fill='x')
-        #sqlFrm.pack_forget()
-        #
+
+
         self._okBtn = tkinter.Button(self,text='OK',command=self.getParams)
         self._okBtn.pack(side=tkinter.TOP)
 
@@ -69,7 +72,8 @@ class IntegerView(_IView):
         typeChosen.current(0)  # 设置下拉列表默认显示的值，0为 numberChosen['values'] 的下标值
         typeChosen.bind("<<ComboboxSelected>>",self.choiceType)  # 绑定事件,(下拉列表框被选中时，绑定go()函数)
         self.choiceType()
-    def choiceType(self,*args):  # 处理事件，*args表示可变参数
+    #类型选择响应
+    def choiceType(self,*args):
         type = self._type.get();
         self._okBtn.pack_forget()
         for key in self._typeList:
@@ -84,6 +88,7 @@ class IntegerView(_IView):
             return False
         return self.params
         pass
+
     def setParams(self,params):
         mapType = { 'COMMAN':'常规',  'LIST':'指定列表',  'TABLE':'表属性', 'SQL': 'SQL'}
         # self._prefix.set(params['prefix'])
@@ -95,13 +100,12 @@ class IntegerView(_IView):
         self._sql.set(params['sql'])
         self._type.set(mapType[params['_TYPE_']])
         self.choiceType()
-        # typeChosen.current(self.mapIndex[params['_TYPE']])
         pass
+
     def _validate(self):
         mapType = {'常规': 'COMMAN', '指定列表': 'LIST', '表属性': 'TABLE', 'SQL': 'SQL'}
         try:
             self.params = {
-                # 'prefix':self._prefix.get(),
                 'start':self._start.get(),
                 'end':self._end.get(),
                 'step':self._step.get(),
@@ -120,8 +124,3 @@ class IntegerView(_IView):
             return False
         else:
             return True
-
-# if __name__ == '__main__':
-#     root = tkinter.Tk()
-#     a = VarcharView()
-#     a.mainloop()

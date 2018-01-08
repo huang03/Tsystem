@@ -12,8 +12,8 @@ class TimeStampRule(_IRule):
 
     def _validateComman(self):
 
-        if self.params.get('now'):
-            return True
+        # if self.params.get('now'):
+        #     return True
         if self.params.get('start'):
             try:
                 self._tmOperator.validTime(self.params.get('start'))
@@ -38,18 +38,20 @@ class TimeStampRule(_IRule):
     def _getCommanValue(self):
         if not self._isInit:
             self.init()
-        if self.params.get('now'):
-            self._currValue = time.strftime('%Y-%m-%d %H:%M:%S')
+        # if self.params.get('now'):
+        #     self._currValue = time.strftime('%Y-%m-%d %H:%M:%S')
+        # else:
+        if not self._currValue:
+            self._currValue = self.params['start']
         else:
-            if not self._currValue:
-                self._currValue = self.params['start']
-            else:
-                self._currValue = self._tmOperator.getDeltatime(self._currValue, self.params['unit'], self.params['step'])
-                if(self._currValue > self.params['end']):
-                    self._currValue = Constants.OVAER_FLAG
+            self._currValue = self._tmOperator.getDeltatime(self._currValue, self.params['unit'], self.params['step'])
+            if(self._currValue > self.params['end']):
+                self._currValue = Constants.OVAER_FLAG
         return self._currValue
-    pass
 
+    def _getNowValue(self):
+        self._currValue = time.strftime('%Y-%m-%d %H:%M:%S')
+        return self._currValue
     # def validate(self):
     #     if self.params.get('now'):
     #         return True
