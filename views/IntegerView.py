@@ -7,9 +7,9 @@ class IntegerView(_IView):
     '''
 
     '''
-    def __init__(self):
+    def __init__(self,dataType='Integer'):
         super().__init__()
-
+        self.dataType = dataType
         self.title('hello')
         self.geometry('%dx%d+%d+%d' % self.center_window(500, 250))
         self.params = {}
@@ -115,10 +115,14 @@ class IntegerView(_IView):
                 '_TYPE_':mapType[self._type.get()]
             }
         except Exception as E:
-            return False
             print(E)
+            return False
 
-        V = IntegerRule(self.params);
+        V = None
+        if self.dataType == 'Integer':
+            V = IntegerRule(self.params);
+        elif self.dataType == 'SmallInt':
+            V = Smal
         if not V.validate(mapType[self._type.get()]):
             showwarning('Warning', ' %s' % V.getError() )
             return False

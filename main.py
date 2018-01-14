@@ -13,7 +13,6 @@ from runs.DBRun import DBRun
 from runs.Runs import Runs
 from rules2.RuleFactory import RuleFactory
 from VisitUrl import VisitUrl
-import Constants
 
 class RunTSystem(tkinter.Tk):
     '''
@@ -51,16 +50,19 @@ class RunTSystem(tkinter.Tk):
         tkinter.Button(navsFrame, text='接口', width=10, command=self.openWindow).pack(side=tkinter.LEFT)
         tkinter.Button(navsFrame, text='连接属性', width=10,command=lambda:self.openSetDdConnectWindow(self)).pack(side=tkinter.LEFT)
         tkinter.Button(navsFrame, text='数据表', width=10,command=lambda:self.openTableListWindow(self)).pack(side=tkinter.LEFT)
-        tkinter.Button(navsFrame, text='RUN', width=10, command=self.runTasks).pack(side=tkinter.LEFT)
-        tkinter.Button(navsFrame, text='STOP',width=10, command=self.stopTasks).pack(side=tkinter.LEFT)
-        tkinter.Label(navsFrame, text='Interval：').pack(side=tkinter.LEFT)
+        # tkinter.Button(navsFrame, text='RUN', width=10, command=self.runTasks).pack(side=tkinter.LEFT)
+        # tkinter.Button(navsFrame, text='STOP',width=10, command=self.stopTasks).pack(side=tkinter.LEFT)
+        tkinter.Label(navsFrame, text='时间频率：').pack(side=tkinter.LEFT)
         tkinter.Entry(navsFrame,textvariable = self.intervalTm).pack(side=tkinter.LEFT)
         tkinter.Button(navsFrame, text='SET', command=self.setIntervalTm).pack(side=tkinter.LEFT) #设置任务执行频率
+        #tkinter.Button(navsFrame, text='SET', command=self.setIntervalTm).pack(side=tkinter.LEFT) #设置任务执行频率
+
         navsFrame.grid(row=0,column=0,pady=5,sticky=tkinter.W)
 
         self.taskFram = tkinter.Frame(bg='blue',width=796,height=200)
         self.taskFram.grid(row=1,column=0,pady=5,sticky=tkinter.W)
         self.taskFram.grid_propagate(0)
+
 
         self.RUNS = Runs()#运行规则类
 
@@ -77,19 +79,24 @@ class RunTSystem(tkinter.Tk):
 
         pass
     #运行任务
-    def runTasks(self):
-        self.RUNS.run()
+    # def runTasks(self):
+    #     self.RUNS.run()
 
     #停止任务
-    def stopTasks(self):
-
-        pass
+    # def stopTasks(self):
+    #
+    #     pass
     #设置任务执行频率
     def setIntervalTm(self):
-        if self.intervalTm.get() == '':
-            self.intervalTm.set(0.1)
-
-
+        try:
+            if self.intervalTm.get() == '':
+                self.intervalTm.set(0.1)
+            tmp = float(self.intervalTm.get())
+            self.intervalTm.set(tmp)
+            self.RUNS.setInterval(tmp)
+        except Exception:
+            self.intervalTm.set(1)
+            self.RUNS.setInterval(1)
     def openWindow(self):
         dialog = DialogAPI(self)
         pass
@@ -144,7 +151,6 @@ class ApiItems:
         self._ruleFactory = RuleFactory()
         self._RUNS = RUNS
         self._VisitUrl = VisitUrl()
-        # self._TMysql = MysqlT()
         pass
     def _getData(self):
         operator = MysqlT()
@@ -221,21 +227,63 @@ class InsertItem:
         self.data = {}
         self._ruleFactory = RuleFactory()
         self._DB = MysqlC()
+        self._batchNum = tkinter.IntVar() #批量插入的条数
+        self._totalNum = tkinter.IntVar() #插入总条数， 0 为不限制
+        self._batchNum.set(10)
+        self._totalNum.set(0);
         tkinter.Label(parent, text=row+1).grid(row=row, column=column,padx=10,pady=5)
         column += 2
         tkinter.Label(parent, text=item['tbl']).grid(row=row, column=column,padx=20,pady=5)
         column += 1
+        tkinter.Entry(parent, textvariable=self._batchNum,width=8).grid(row=row, column=column,padx=20,pady=5)
+        column += 1
+        tkinter.Entry(parent, textvariable=self._totalNum,width=10).grid(row=row, column=column,padx=20,pady=5)
         for key in item:
             self.data[key] = item[key]
+        column += 1
         tkinter.Button(parent,text='Run',command=self.run).grid(row=row,column=column,padx=10,pady=5)
+
+        column += 1
+        tkinter.Button(parent, text='Stop', command=self.stop).grid(row=row, column=column, padx=10, pady=5)
+
+        column += 1
+        tkinter.Button(parent, text='Remove', command=self.remove).grid(row=row, column=column, padx=10, pady=5)
         pass
     def getData(self):
         return self.data
+    def stop(self):
+        self._RUNS.stopTask(self.data['tbl'])
+        pass
+    def remove(self):
+        self._RUNS.removeTask(self.data['tbl'])
+        pass
+    def _getBatchNum(self):
+        try:
+            tmp = int(self._batchNum.get())
+            if tmp<1:
+                tmp = 1
+            if tmp>200:
+                tmp = 200
+        except Exception:
+            tmp = 10
+        self._batchNum.set(tmp)
+        return tmp
+    def _getTotalNum(self):
+        try:
+            tmp = int(self._totalNum.get())
+        except Exception:
+            tmp = 0
+        self._totalNum.set(tmp)
+        return tmp
     def run(self): #需要设置重复加载
         '''
         将该表的数据生成规则，实例化具体的规则类，并加入的运行队列，等待执行
         :return:
         '''
+
+        if self._RUNS.isExistRunObj(self.data['tbl']):
+            print('exist')
+            return True
         operator = MysqlT()
         #获取具体执行的数据生成规则
         detail = operator.queryRow({
@@ -247,29 +295,20 @@ class InsertItem:
         operatorC = MysqlC()
         tblClm = operatorC.queryBySql('desc '+self.data['tbl'])
         runObj = DBRun(self._DB)
+        runObj.setBatchNum(self._getBatchNum())
+        runObj.setTotal(self._getTotalNum())
         runObj.addTaskParams(self.data['tbl'])
-        # if self.data.get('tbl'):
-        #     return False;
 
         #根据每个字段的属性，生成具体规则类,并加入到运行队列,等待运行
         for clm in tblClm:
-            obj = None
             if clm['Extra'] != '':
                 continue;
-            if 'varchar' in clm['Type']:
-                obj = self._ruleFactory.getAPIRule(Constants.API_RULE_TYPE['varchar'],detail[clm['Field']])
-                # obj = VarcharRule(detail[clm['Field']])
-            elif 'int' in clm['Type']:
-                obj = self._ruleFactory.getAPIRule(Constants.API_RULE_TYPE['int'], detail[clm['Field']])
-                # obj = IntegerRule(detail[clm['Field']])
-            elif 'timestamp' in clm['Type']:
-                obj = self._ruleFactory.getAPIRule(Constants.API_RULE_TYPE['timestamp'], detail[clm['Field']])
-
+            obj = self._ruleFactory.getAPIRule(clm['Type'],detail[clm['Field']])
             if obj:
                 runObj.addTask(clm['Field'],obj)
 
         print('add tbl:' + self.data['tbl'])
-        self._RUNS.addRunObj(runObj)
+        self._RUNS.addRunObj(self.data['tbl'], runObj)
     pass
 
 

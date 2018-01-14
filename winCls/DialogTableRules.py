@@ -7,6 +7,7 @@ from tkinter.messagebox import *
 from views.VarcharView import VarcharView
 from views.IntegerView import IntegerView
 from views.TimeStampView import TimeStampView
+from views.DateView import DateView
 class TableRules(tkinter.Toplevel):
     '''
     数据表，字段规则，展示一个数据表中，所有字段的规则说明
@@ -34,18 +35,28 @@ class TableRules(tkinter.Toplevel):
     #显示表中，需要编辑的属性字段，可自动添加的除外
     def showColumn(self,tbl):
         columns = self.getTableColums(tbl)
+        if self.activeRow:
+            property = json.loads(self.activeRow['property'])
         for item in columns:
             if item['Extra'] == '':
                 field = item['Field']
                 if 'varchar' in item['Type']:
                     self._keyType[field] = 'Varchar'
-                elif 'int' in item['Type']:
+                elif 'int' in item['Type'] or 'smallint' in item['Type']:
                     self._keyType[field] = 'Int'
+                elif 'tinyint' in item['Type']:
+                    self._keyType[field] = 'TinyInt'
+                elif 'smallint' in item['Type']:
+                    self._keyType[field] = 'SmallInt'
                 elif 'timestamp' in item['Type']:
                     self._keyType[field] = 'TimeStamp'
-                self.params[field] = False
+                elif 'date' in item['Type']:
+                    self._keyType[field] = 'Date'
+                if not self.activeRow:
+                    self.params[field] = False
+                else:
+                    self.params[field] = property[field]
         row1 = tkinter.Frame(self)
-
         scrolly = tkinter.Scrollbar(row1)
         scrolly.pack(side=tkinter.RIGHT, fill=tkinter.Y)
         self.lb = tkinter.Listbox(row1, width=300, yscrollcommand=scrolly.set)
@@ -58,7 +69,7 @@ class TableRules(tkinter.Toplevel):
         row2 = tkinter.Frame(self)
         row2.pack(fill='x')
         tkinter.Button(row2,text='OK',width=200,command=self.summit).pack(side=tkinter.RIGHT)
-
+        print(self.params)
     #编辑属性参数
     def editField(self,event):
         tmpView = None
@@ -68,8 +79,15 @@ class TableRules(tkinter.Toplevel):
             tmpView = VarcharView()
         elif self._keyType[field] == 'Int':
             tmpView = IntegerView()
+        elif self._keyType[field] == 'SmallInt':
+            tmpView = IntegerView('SmallInt')
+        elif self._keyType[field] == 'TinyInt':
+            tmpView = IntegerView('TinyInt')
         elif self._keyType[field] == 'TimeStamp':
             tmpView = TimeStampView()
+        elif self._keyType[field] == 'Date':
+            tmpView = DateView()
+
 
         if not tmpView:
             showinfo('TIP', '没有该类型的编辑配置设置')
@@ -77,8 +95,8 @@ class TableRules(tkinter.Toplevel):
 
         if self.activeRow: #如果具体数据，设置具体规则的参数数据
             property = json.loads(self.activeRow['property'])
-            print(property[field])
             tmpView.setParams(property[field])
+
 
         self.withdraw()
         self.wait_window(tmpView)

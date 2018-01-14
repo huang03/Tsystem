@@ -7,6 +7,7 @@ class TimeStampRule(_IRule):
     def __init__(self,params):
         super().__init__(params)
         self._tmOperator = TmOperation()
+        print('TimeStamp')
         # self._currValue = None
         self._isInit = False
 
@@ -46,7 +47,7 @@ class TimeStampRule(_IRule):
         else:
             self._currValue = self._tmOperator.getDeltatime(self._currValue, self.params['unit'], self.params['step'])
             if(self._currValue > self.params['end']):
-                self._currValue = Constants.OVAER_FLAG
+                self._currValue = self.params['start']
         return self._currValue
 
     def _getNowValue(self):

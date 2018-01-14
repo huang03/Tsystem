@@ -7,7 +7,13 @@ class TmOperation:
          getDateTimeByStr 根据给订的时间字符串，转换成 datetime的类型
          compareTime 时间比较，比较第一时间是否大于第二个时间
     """
-    def validTime(self,str,format='%Y-%m-%d %H:%M:%S'):
+    def __init__(self):
+        self._format = '%Y-%m-%d %H:%M:%S'
+
+    def setFormat(self,format):
+        self._format = format;
+
+    def validTime(self,str):
         '''
             验证时间有效性：
                 str:给点时间字符串
@@ -16,11 +22,11 @@ class TmOperation:
                 返回值：False or datetime
         '''
         try:
-            formats = '%Y-%m-%d %H:%M:%S'
-            return time.strptime(str, format)
-        except Exception:
-
-            raise Exception('the format of time is error %s %s' % (str,formats))
+           # formats = '%Y-%m-%d %H:%M:%S'
+            return time.strptime(str, self._format)
+        except Exception as e:
+            print(e)
+            raise Exception('the format of time is error %s %s' % (str,self._format))
             return False
     def getDeltatime(self,currTimeStr, key='S', delta=0):
         '''
