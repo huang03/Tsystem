@@ -10,10 +10,20 @@ class DBRun(IRun):
         self._totalNum = 0
         self._executeNum = 0
         self._params = {}
+
+    #获取执行次数
+    def getExecuteNum(self):
+        return self._executeNum;
+    #获取插入总数
+    def getTotal(self):
+        return self._executeNum*self._batchNum
+
     def addTaskParams(self,tbl):
         self._params = {'tbl':tbl}
+
     def setTotal(self,num):
         self._totalNum = num
+
     def setBatchNum(self,num):
         if type(1) != type(num):
             return False

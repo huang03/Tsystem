@@ -1,23 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/runs/Runs.py" line="47" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="36b9b500-a061-41cd-9652-39e28bcbf9aa" name="默认的" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Constants.py" afterPath="$PROJECT_DIR$/Constants.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/commons/timeOperation.py" afterPath="$PROJECT_DIR$/commons/timeOperation.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config.txt" afterPath="$PROJECT_DIR$/config.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rules2/DB_IntegerRule.py" afterPath="$PROJECT_DIR$/rules2/DB_IntegerRule.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rules2/DB_TimeStampRule.py" afterPath="$PROJECT_DIR$/rules2/DB_TimeStampRule.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rules2/RuleFactory.py" afterPath="$PROJECT_DIR$/rules2/RuleFactory.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/runs/DBRun.py" afterPath="$PROJECT_DIR$/runs/DBRun.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/runs/Runs.py" afterPath="$PROJECT_DIR$/runs/Runs.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/IntegerView.py" afterPath="$PROJECT_DIR$/views/IntegerView.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/TimeStampView.py" afterPath="$PROJECT_DIR$/views/TimeStampView.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/winCls/DialogTableRules.py" afterPath="$PROJECT_DIR$/winCls/DialogTableRules.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -29,7 +17,7 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/Tsysten$Base.coverage" NAME="Base Coverage Results" MODIFIED="1505458130022" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbs" />
     <SUITE FILE_PATH="coverage/Tsystem$VisitUrl.coverage" NAME="VisitUrl Coverage Results" MODIFIED="1512874955132" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Tsystem$main.coverage" NAME="main Coverage Results" MODIFIED="1515901976630" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Tsystem$main.coverage" NAME="main Coverage Results" MODIFIED="1517107684296" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Tsystem$Runs.coverage" NAME="Runs Coverage Results" MODIFIED="1512788690139" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/runs" />
     <SUITE FILE_PATH="coverage/Tsystem$DBRun.coverage" NAME="DBRun Coverage Results" MODIFIED="1512809693027" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/runs" />
     <SUITE FILE_PATH="coverage/Tsystem$DB_DateRule.coverage" NAME="DB_DateRule Coverage Results" MODIFIED="1515808724301" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/rules2" />
@@ -46,11 +34,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+            <state relative-caret-position="-3811">
+              <caret line="57" column="0" lean-forward="true" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -58,23 +46,58 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RuleFactory.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rules2/RuleFactory.py">
+      <file leaf-file-name="API_RangeRule.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rules2/API_RangeRule.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="359">
-              <caret line="28" column="35" lean-forward="false" selection-start-line="28" selection-start-column="35" selection-end-line="28" selection-end-column="35" />
+            <state relative-caret-position="19">
+              <caret line="1" column="13" lean-forward="true" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="13" />
               <folding>
-                <element signature="e#0#16#0" expanded="true" />
+                <element signature="e#0#32#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Constants.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Constants.py">
+      <file leaf-file-name="InsertLog.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/logs/InsertLog.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
-              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="108" />
+            <state relative-caret-position="549">
+              <caret line="59" column="13" lean-forward="true" selection-start-line="59" selection-start-column="13" selection-end-line="59" selection-end-column="13" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_ILog.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/logs/_ILog.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="247">
+              <caret line="13" column="32" lean-forward="false" selection-start-line="13" selection-start-column="32" selection-end-line="13" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_IRule.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rules2/_IRule.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="665">
+              <caret line="36" column="32" lean-forward="false" selection-start-line="36" selection-start-column="26" selection-end-line="36" selection-end-column="32" />
+              <folding>
+                <marker date="1515400570760" expanded="true" signature="4162:4183" ph="SELECT COUNT... missing_value" />
+                <marker date="1515400570760" expanded="true" signature="4634:4655" ph="SELECT COUNT... missing_value" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DBRun.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/runs/DBRun.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="247">
+              <caret line="16" column="11" lean-forward="false" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -83,40 +106,8 @@
       <file leaf-file-name="DB_TinyIntRule.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rules2/DB_TinyIntRule.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
+            <state relative-caret-position="551">
               <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Runs.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/runs/Runs.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="494">
-              <caret line="68" column="12" lean-forward="false" selection-start-line="68" selection-start-column="12" selection-end-line="68" selection-end-column="12" />
-              <folding>
-                <element signature="e#1#27#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DBRun.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/runs/DBRun.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="25" column="23" lean-forward="false" selection-start-line="25" selection-start-column="23" selection-end-line="25" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mysqlBase.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dbs/mysqlBase.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="78">
-              <caret line="106" column="16" lean-forward="false" selection-start-line="106" selection-start-column="8" selection-end-line="106" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -125,8 +116,8 @@
       <file leaf-file-name="DB_TimeStampRule.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rules2/DB_TimeStampRule.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="55" column="25" lean-forward="true" selection-start-line="55" selection-start-column="25" selection-end-line="55" selection-end-column="25" />
+            <state relative-caret-position="494">
+              <caret line="53" column="26" lean-forward="false" selection-start-line="53" selection-start-column="26" selection-end-line="53" selection-end-column="60" />
               <folding />
             </state>
           </provider>
@@ -135,19 +126,21 @@
       <file leaf-file-name="timeOperation.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/commons/timeOperation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+            <state relative-caret-position="475">
+              <caret line="25" column="20" lean-forward="true" selection-start-line="25" selection-start-column="20" selection-end-line="25" selection-end-column="20" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DB_SmallIntRule.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rules2/DB_SmallIntRule.py">
+      <file leaf-file-name="Runs.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/runs/Runs.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-494">
-              <caret line="1" column="14" lean-forward="false" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
-              <folding />
+            <state relative-caret-position="40">
+              <caret line="50" column="12" lean-forward="false" selection-start-line="50" selection-start-column="12" selection-end-line="50" selection-end-column="12" />
+              <folding>
+                <element signature="e#1#17#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -163,17 +156,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>d</find>
-      <find>INSER</find>
-      <find>_isInit</find>
-      <find>init</find>
-      <find>validate</find>
-      <find>columnLog</find>
-      <find>_keyType</find>
-      <find>time</find>
-      <find>RPackages</find>
-      <find>openWindow</find>
-      <find>self.RPG</find>
       <find>RPG</find>
       <find>getParams</find>
       <find>_validate</find>
@@ -190,9 +172,20 @@
       <find>_RUNLIST</find>
       <find>runTasks</find>
       <find>setInterval</find>
-      <find>InsertItems</find>
-      <find>intervalTm</find>
       <find>params</find>
+      <find>logs</find>
+      <find>LABEL</find>
+      <find>LogsList</find>
+      <find>InsertItems</find>
+      <find>_RUNS</find>
+      <find>self.RUNS</find>
+      <find>setAddLog</find>
+      <find>_totalNum</find>
+      <find>intervalTm</find>
+      <find>_executeNum</find>
+      <find>run</find>
+      <find>isFinish</find>
+      <find>autoLoadingLogs</find>
     </findStrings>
     <replaceStrings>
       <replace>_</replace>
@@ -207,10 +200,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/rules/GenerateData.py" />
-        <option value="$PROJECT_DIR$/winCls/DialogDbConnect.py" />
-        <option value="$PROJECT_DIR$/winCls/DialogTableList.py" />
-        <option value="$PROJECT_DIR$/winCls/DialogExtraRule.py" />
         <option value="$PROJECT_DIR$/winCls/DialogAPI.py" />
         <option value="$PROJECT_DIR$/rules/APIRules.py" />
         <option value="$PROJECT_DIR$/rules/RulesRun.py" />
@@ -254,10 +243,14 @@
         <option value="$PROJECT_DIR$/rules2/DB_DateRule.py" />
         <option value="$PROJECT_DIR$/rules2/DB_TimeStampRule.py" />
         <option value="$PROJECT_DIR$/rules2/RuleFactory.py" />
+        <option value="$PROJECT_DIR$/rules2/DB_TinyIntRule.py" />
+        <option value="$PROJECT_DIR$/logs/insertLog.py" />
+        <option value="$PROJECT_DIR$/logs/_Log.py" />
+        <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/logs/_ILog.py" />
+        <option value="$PROJECT_DIR$/logs/InsertLog.py" />
         <option value="$PROJECT_DIR$/runs/Runs.py" />
         <option value="$PROJECT_DIR$/runs/DBRun.py" />
-        <option value="$PROJECT_DIR$/rules2/DB_TinyIntRule.py" />
-        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
@@ -268,8 +261,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="407" />
-    <option name="y" value="18" />
+    <option name="x" value="289" />
+    <option name="y" value="9" />
     <option name="width" value="1400" />
     <option name="height" value="1000" />
   </component>
@@ -306,12 +299,7 @@
             <path>
               <item name="Tsystem" type="b2602c69:ProjectViewProjectNode" />
               <item name="Tsystem" type="462c0819:PsiDirectoryNode" />
-              <item name="dbs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Tsystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Tsystem" type="462c0819:PsiDirectoryNode" />
-              <item name="rules" type="462c0819:PsiDirectoryNode" />
+              <item name="logs" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Tsystem" type="b2602c69:ProjectViewProjectNode" />
@@ -322,16 +310,6 @@
               <item name="Tsystem" type="b2602c69:ProjectViewProjectNode" />
               <item name="Tsystem" type="462c0819:PsiDirectoryNode" />
               <item name="runs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Tsystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Tsystem" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Tsystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Tsystem" type="462c0819:PsiDirectoryNode" />
-              <item name="winCls" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -486,7 +464,7 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17857143" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18017058" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="调试" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29035753" sideWeight="0.5021322" order="7" side_tool="true" content_ui="tabs" />
@@ -555,20 +533,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/dbs/MysqlT.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="4" column="1" lean-forward="false" selection-start-line="4" selection-start-column="1" selection-end-line="5" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/winCls/DialogAPI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" column="60" lean-forward="false" selection-start-line="9" selection-start-column="60" selection-end-line="9" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dbs/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -744,14 +708,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rules2/API_RangeRule.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rules/RulePackages.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="608">
@@ -800,9 +756,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="418">
           <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -828,18 +781,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
           <caret line="16" column="48" lean-forward="false" selection-start-line="16" selection-start-column="48" selection-end-line="16" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rules2/_IRule.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="665">
-          <caret line="36" column="32" lean-forward="false" selection-start-line="36" selection-start-column="26" selection-end-line="36" selection-end-column="32" />
-          <folding>
-            <marker date="1515400570760" expanded="true" signature="4162:4183" ph="SELECT COUNT... missing_value" />
-            <marker date="1515400570760" expanded="true" signature="4634:4655" ph="SELECT COUNT... missing_value" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -855,21 +796,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="437">
           <caret line="44" column="16" lean-forward="false" selection-start-line="44" selection-start-column="16" selection-end-line="44" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rules2/DB_TimeStampRule.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="55" column="25" lean-forward="true" selection-start-line="55" selection-start-column="25" selection-end-line="55" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dbs/mysqlBase.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
+        <state relative-caret-position="1995">
           <caret line="106" column="16" lean-forward="false" selection-start-line="106" selection-start-column="8" selection-end-line="106" selection-end-column="16" />
           <folding />
         </state>
@@ -877,23 +809,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/rules2/DB_SmallIntRule.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-494">
+        <state relative-caret-position="19">
           <caret line="1" column="14" lean-forward="false" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/commons/timeOperation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rules2/RuleFactory.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="359">
+        <state relative-caret-position="323">
           <caret line="28" column="35" lean-forward="false" selection-start-line="28" selection-start-column="35" selection-end-line="28" selection-end-column="35" />
           <folding>
             <element signature="e#0#16#0" expanded="true" />
@@ -909,39 +833,94 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/runs/Runs.py">
+    <entry file="file://$PROJECT_DIR$/rules2/DB_TinyIntRule.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
-          <caret line="68" column="12" lean-forward="false" selection-start-line="68" selection-start-column="12" selection-end-line="68" selection-end-column="12" />
-          <folding>
-            <element signature="e#1#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/runs/DBRun.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="25" column="23" lean-forward="false" selection-start-line="25" selection-start-column="23" selection-end-line="25" selection-end-column="23" />
+        <state relative-caret-position="551">
+          <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rules2/DB_TinyIntRule.py">
+    <entry file="file://$PROJECT_DIR$/rules2/_IRule.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+        <state relative-caret-position="665">
+          <caret line="36" column="32" lean-forward="false" selection-start-line="36" selection-start-column="26" selection-end-line="36" selection-end-column="32" />
+          <folding>
+            <marker date="1515400570760" expanded="true" signature="4162:4183" ph="SELECT COUNT... missing_value" />
+            <marker date="1515400570760" expanded="true" signature="4634:4655" ph="SELECT COUNT... missing_value" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rules2/DB_TimeStampRule.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="53" column="26" lean-forward="false" selection-start-line="53" selection-start-column="26" selection-end-line="53" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rules2/API_RangeRule.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="1" column="13" lean-forward="true" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/commons/timeOperation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="25" column="20" lean-forward="true" selection-start-line="25" selection-start-column="20" selection-end-line="25" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        <state relative-caret-position="-3811">
+          <caret line="57" column="0" lean-forward="true" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logs/_ILog.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="13" column="32" lean-forward="false" selection-start-line="13" selection-start-column="32" selection-end-line="13" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logs/InsertLog.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="549">
+          <caret line="59" column="13" lean-forward="true" selection-start-line="59" selection-start-column="13" selection-end-line="59" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runs/Runs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="50" column="12" lean-forward="false" selection-start-line="50" selection-start-column="12" selection-end-line="50" selection-end-column="12" />
+          <folding>
+            <element signature="e#1#17#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runs/DBRun.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="16" column="11" lean-forward="false" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
+          <folding />
         </state>
       </provider>
     </entry>

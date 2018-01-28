@@ -1,7 +1,6 @@
 import tkinter
 import json
 from rules.RuleViews import *
-
 from dbs.MysqlC import MysqlC
 from dbs.MysqlT import MysqlT
 from winCls.DialogTableRules import TableRules
@@ -50,8 +49,6 @@ class RunTSystem(tkinter.Tk):
         tkinter.Button(navsFrame, text='接口', width=10, command=self.openWindow).pack(side=tkinter.LEFT)
         tkinter.Button(navsFrame, text='连接属性', width=10,command=lambda:self.openSetDdConnectWindow(self)).pack(side=tkinter.LEFT)
         tkinter.Button(navsFrame, text='数据表', width=10,command=lambda:self.openTableListWindow(self)).pack(side=tkinter.LEFT)
-        # tkinter.Button(navsFrame, text='RUN', width=10, command=self.runTasks).pack(side=tkinter.LEFT)
-        # tkinter.Button(navsFrame, text='STOP',width=10, command=self.stopTasks).pack(side=tkinter.LEFT)
         tkinter.Label(navsFrame, text='时间频率：').pack(side=tkinter.LEFT)
         tkinter.Entry(navsFrame,textvariable = self.intervalTm).pack(side=tkinter.LEFT)
         tkinter.Button(navsFrame, text='SET', command=self.setIntervalTm).pack(side=tkinter.LEFT) #设置任务执行频率
@@ -63,29 +60,11 @@ class RunTSystem(tkinter.Tk):
         self.taskFram.grid(row=1,column=0,pady=5,sticky=tkinter.W)
         self.taskFram.grid_propagate(0)
 
-
-        self.RUNS = Runs()#运行规则类
-
-
         self.logsFrame = tkinter.Frame(bg='red',width=796,height=200)
         self.logsFrame.grid(row=2,column=0,sticky=tkinter.W)
-
+        self.RUNS = Runs(self.logsFrame)#运行规则类
         self.listInsertItem()
-        self.logs = LogsList(self.logsFrame)
 
-
-
-        # P = ApiItems(self.taskFram, self.RUNS)
-
-        pass
-    #运行任务
-    # def runTasks(self):
-    #     self.RUNS.run()
-
-    #停止任务
-    # def stopTasks(self):
-    #
-    #     pass
     #设置任务执行频率
     def setIntervalTm(self):
         try:
@@ -134,16 +113,6 @@ class RunTSystem(tkinter.Tk):
             'condtion':'user_id=1'
         })
         Items = InsertItems(self.taskFram,result,self.RUNS)
-
-
-#运行记录
-class LogsList:
-    def __init__(self,parent):
-        self.logs = tkinter.Listbox(parent,width=796)
-        self.logs.pack(side=tkinter.RIGHT)
-    def add(self,log):
-        self.logs.insert(0,log)
-    pass
 
 class ApiItems:
     def __init__(self,parent,RUNS):
@@ -220,7 +189,6 @@ class InsertItems:
             row += 1
         pass
 class InsertItem:
-
     def __init__(self, row, parent, item, RUNS):
         column = 0
         self._RUNS = RUNS
@@ -309,9 +277,6 @@ class InsertItem:
 
         print('add tbl:' + self.data['tbl'])
         self._RUNS.addRunObj(self.data['tbl'], runObj)
-    pass
-
-
 
 if __name__ == '__main__':
     app = RunTSystem()
